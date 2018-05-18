@@ -10,9 +10,9 @@ namespace Vexil
 	public:
 		Accessory();
 		enum AccessoryType {
-			none = 0,
+			accNone = 0,
 			star,
-			cross,
+			accCross,
 			moon,
 			circle,
 			leaf,
@@ -27,7 +27,7 @@ namespace Vexil
 			single = 0,
 			grid,
 			staggeredGrid,
-			circle,
+			circular,
 			bow,
 		};
 

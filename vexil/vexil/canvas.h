@@ -2,6 +2,7 @@
 #ifndef CANVAS_H
 #define CANVAS_H
 #include <SDL.h>
+#undef main
 #include "codes.h"
 #define TK_WINDOW_HEIGHT 500
 #define TK_WINDOW_WIDTH 809

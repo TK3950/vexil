@@ -112,6 +112,7 @@
   <ItemGroup>
     <ClCompile Include="accessory.cpp" />
     <ClCompile Include="canvas.cpp" />
+    <ClCompile Include="color.cpp" />
     <ClCompile Include="flag.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="opensimplexnoise.cpp" />

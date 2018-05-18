@@ -3,23 +3,24 @@
 #define PATTERN_H 1
 #include "color.h"
 #include "vexmath.h"
+#include "canvas.h"
 
 namespace Vexil {
 	class Pattern {
 	public:
 		enum PatternType {
-			none = 0,
+			pattNone = 0,
 			vStripes,
 			hStripes,
 			dStripes,
-			cross,
+			pattCross,
 			triangle,
 			rectangle,
 			checkers
 		};
 
 		enum Symmetry {
-			none = 0,
+			symmNone = 0,
 			horizontal,
 			vertical,
 			quad,
@@ -52,6 +53,10 @@ namespace Vexil {
 		Symmetry getSymmetry();
 		double getStrength();
 		Color* getColor();
+		void setDrawColor(Canvas*, Color*);
+		void renderVStripes(Canvas*);
+		void renderHStripes(Canvas*);
+		void renderDStripes(Canvas*);
 		
 	};
 }

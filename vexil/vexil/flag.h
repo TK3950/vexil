@@ -44,7 +44,7 @@ namespace Vexil
 		void setBaseColor(Color);
 		void createPatterns(int);
 		void createAccessories(int);
-		void setDrawColor(Color*);
+		void setDrawColor(Canvas*, Color*);
 
 		void renderBase(); // render first, might need the canvas passed
 		void renderPatterns(); // render second

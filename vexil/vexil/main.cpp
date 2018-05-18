@@ -36,6 +36,11 @@ int main()
 		{
 			canvas->SaveImage();
 		}
+		else if (response == TK_CODE_GENERATE)
+		{
+			flag->generate();
+			canvas->UpdateToScreen();
+		}
 	}
 
 	if (TK_QUIT)

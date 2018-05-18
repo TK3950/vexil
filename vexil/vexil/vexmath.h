@@ -7,7 +7,7 @@ namespace Vexil
 {
 	class VexMath
 	{
-		static OpenSimplexNoise noise;
+		
 	public:
 		static double getDouble(double, double, double, double);
 		static int getInt(double, double, int, int);

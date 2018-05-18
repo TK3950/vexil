@@ -1,5 +1,6 @@
 #include "flag.h"
 #include <math.h>
+#include <iostream>
 
 
 Vexil::Flag::Flag(Vexil::Canvas* c)
@@ -13,6 +14,7 @@ Vexil::Flag::Flag(Vexil::Canvas* c)
 
 void Vexil::Flag::createPatterns(int patternsMax)
 {
+	patterns = new Pattern[patternsMax];
 	for (int count = 0; count < patternsMax; count++)
 	{
 		patterns[count] = Pattern();
@@ -21,6 +23,7 @@ void Vexil::Flag::createPatterns(int patternsMax)
 
 void Vexil::Flag::createAccessories(int accessoriesMax)
 {
+	accessories = new Accessory[accessoriesMax];
 	for (int count = 0; count < accessoriesMax; count++)
 	{
 		accessories[count] = Accessory();
@@ -38,20 +41,29 @@ void Vexil::Flag::generate()
 	patternCount = VexMath::getInt(400, 400, 0, Pattern::checkers);
 	accessoryCount = VexMath::getInt(400, 400, 0, Accessory::emblem);
 
+	std::cout << "Color: " << baseColor->getRed() << baseColor->getGreen() << baseColor->getBlue() << std::endl;
+	std::cout << patternCount << " patterns and " << accessoryCount << " accessories.\nPress G on main window to generate.\n";
+
 	createPatterns(patternCount);
 	createAccessories(accessoryCount);
 
+	renderBase();
+	renderPatterns();
 }
 
-void Vexil::Flag::setDrawColor(Color* c)
+void Vexil::Flag::setDrawColor(Canvas* canvas, Color* c)
 {
-	SDL_SetRenderDrawColor(canvas->getRenderer(), c->getRed(), c->getGreen(), c->getBlue(), c->getAlpha());
+	SDL_SetRenderDrawColor(canvas->getRenderer(),
+		(int)(c->getRed() * 255),
+		(int)(c->getGreen() * 255),
+		(int)(c->getBlue() * 255),
+		(int)(c->getAlpha() * 255));
 }
 
 void Vexil::Flag::renderBase()
 {
-	setDrawColor(baseColor);
-	SDL_RenderClear(canvas->getRenderer);
+	setDrawColor(canvas, baseColor);
+	SDL_RenderClear(canvas->getRenderer());
 }
 void Vexil::Flag::renderPatterns()
 {
@@ -59,8 +71,15 @@ void Vexil::Flag::renderPatterns()
 	{
 		switch (patterns[i].getType())
 		{
-			// now what do we do to render
-
+		case Vexil::Pattern::vStripes:
+			//
+			patterns[i].renderVStripes(canvas);
+			break;
+		case Vexil::Pattern::hStripes:
+			//
+			patterns[i].renderHStripes(canvas);
+			break;
+		case Vexil::Pattern::pattNone:
 		default:
 			break;
 		}
