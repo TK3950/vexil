@@ -79,6 +79,10 @@ void Vexil::Flag::renderPatterns()
 			//
 			patterns[i].renderHStripes(canvas);
 			break;
+		case Vexil::Pattern::dStripes:
+			//
+			patterns[i].renderDStripes(canvas);
+			break;
 		case Vexil::Pattern::pattNone:
 		default:
 			break;
