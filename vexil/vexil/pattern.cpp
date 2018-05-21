@@ -201,10 +201,116 @@ void Vexil::Pattern::renderCross(Canvas* canvas)
 		break;
 	}
 }
+
 void Vexil::Pattern::renderTriangle(Canvas* canvas)
 {
+	bool renderTop = false;
+	bool renderBottom = false;
+	bool renderLeft = false;
+	bool renderRight = false;
+
+	if (firstPosition == top || firstPosition == topLeft || symmetry == quad)
+	{
+		renderTop = true;
+		if (symmetry == horizontal)
+		{
+			renderBottom = true;
+		}
+	}
+	if (firstPosition == right || firstPosition == topRight || symmetry == quad)
+	{
+		renderRight = true;
+		if (symmetry == vertical)
+		{
+			renderLeft = true;
+		}
+	}
+	if (firstPosition == bottom || firstPosition == bottomRight || symmetry == quad)
+	{
+		renderBottom = true;
+		if (symmetry == horizontal)
+		{
+			renderTop = true;
+		}
+	}
+	if (firstPosition == left || firstPosition == bottomLeft || symmetry == quad)
+	{
+		renderLeft = true;
+		if (symmetry == vertical)
+		{
+			renderRight = true;
+		}
+	}
+
+	strength = (strength > .45f) ? .75f : strength;
+	strength = (strength < .25f) ? .25f : strength;
+	setDrawColor(canvas, color);
+	if (renderTop)
+	{
+		for (int lx = 0; lx < (strength*TK_WINDOW_WIDTH); lx++)
+		{
+			SDL_RenderDrawLine(canvas->getRenderer(), (TK_WINDOW_WIDTH / 2), 
+			((TK_WINDOW_HEIGHT / 2)*strength) - lx,
+				(TK_WINDOW_WIDTH / 2) + ((TK_WINDOW_HEIGHT / 2)*strength) - lx,
+				0);
+			SDL_RenderDrawLine(canvas->getRenderer(), (TK_WINDOW_WIDTH / 2),
+				((TK_WINDOW_HEIGHT / 2)*strength) - lx,
+				(TK_WINDOW_WIDTH / 2) - ((TK_WINDOW_HEIGHT / 2)*strength) + lx,
+				0);
+			
+		}
+	}
+
+	if (renderBottom)
+	{
+		for (int lx = 0; lx < (strength*TK_WINDOW_WIDTH); lx++)
+		{
+			SDL_RenderDrawLine(canvas->getRenderer(), (TK_WINDOW_WIDTH / 2),
+				TK_WINDOW_HEIGHT-((TK_WINDOW_HEIGHT / 2)*strength) + lx,
+				(TK_WINDOW_WIDTH / 2) + ((TK_WINDOW_HEIGHT / 2)*strength) - lx,
+				TK_WINDOW_HEIGHT);
+			SDL_RenderDrawLine(canvas->getRenderer(), (TK_WINDOW_WIDTH / 2),
+				TK_WINDOW_HEIGHT - ((TK_WINDOW_HEIGHT / 2)*strength) + lx,
+				(TK_WINDOW_WIDTH / 2) - ((TK_WINDOW_HEIGHT / 2)*strength) + lx,
+				TK_WINDOW_HEIGHT);
+
+		}
+	}
+
+	if (renderLeft)
+	{
+		for (int lx = 0; lx < (strength*TK_WINDOW_WIDTH); lx++)
+		{
+			SDL_RenderDrawLine(canvas->getRenderer(), ((TK_WINDOW_HEIGHT / 2)*strength) - lx,
+				(TK_WINDOW_HEIGHT / 2),
+				0,
+				(TK_WINDOW_HEIGHT / 2) + ((TK_WINDOW_HEIGHT / 2)*strength) - lx);
+			SDL_RenderDrawLine(canvas->getRenderer(), ((TK_WINDOW_HEIGHT / 2)*strength) - lx,
+				(TK_WINDOW_HEIGHT / 2),
+				0,
+				(TK_WINDOW_HEIGHT / 2) - ((TK_WINDOW_HEIGHT / 2)*strength) + lx);
+
+		}
+	}
+
+	if (renderLeft)
+	{
+		for (int lx = 0; lx < (strength*TK_WINDOW_WIDTH); lx++)
+		{
+			SDL_RenderDrawLine(canvas->getRenderer(), TK_WINDOW_WIDTH - (((TK_WINDOW_HEIGHT / 2)*strength) - lx),
+				(TK_WINDOW_HEIGHT / 2),
+				TK_WINDOW_WIDTH,
+				(TK_WINDOW_HEIGHT / 2) + ((TK_WINDOW_HEIGHT / 2)*strength) - lx);
+			SDL_RenderDrawLine(canvas->getRenderer(), TK_WINDOW_WIDTH - (((TK_WINDOW_HEIGHT / 2)*strength) - lx),
+				(TK_WINDOW_HEIGHT / 2),
+				TK_WINDOW_WIDTH,
+				(TK_WINDOW_HEIGHT / 2) - ((TK_WINDOW_HEIGHT / 2)*strength) + lx);
+
+		}
+	}
 
 }
+
 void Vexil::Pattern::renderRectangle(Canvas* canvas)
 {
 
