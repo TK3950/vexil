@@ -313,8 +313,105 @@ void Vexil::Pattern::renderTriangle(Canvas* canvas)
 
 void Vexil::Pattern::renderRectangle(Canvas* canvas)
 {
+	bool renderTopLeft = false;
+	bool renderBottomRight = false;
+	bool renderBottomLeft = false;
+	bool renderTopRight = false;
+	bool renderCenter = false;
+	
+	if (firstPosition == topLeft)
+	{
+		renderTopLeft = true;
+		if (symmetry == quad)
+		{
+			renderBottomRight = true;
+		}
+	}
 
+	else if (firstPosition == topRight)
+	{
+		renderTopRight = true;
+		if (symmetry == quad)
+		{
+			renderBottomLeft = true;
+		}
+	}
+
+	else if (firstPosition == bottomLeft)
+	{
+		renderBottomLeft = true;
+		if (symmetry == quad)
+		{
+			renderTopRight = true;
+		}
+	}
+
+	else if (firstPosition == bottomRight)
+	{
+		renderBottomRight = true;
+		if (symmetry == quad)
+		{
+			renderTopLeft = true;
+		}
+	}
+	else
+	{
+		renderCenter = true;
+	}
+
+
+	strength = (strength < .25f) ? .25f : strength;
+	// as a rule, rectangles have a minimum size. If it's anchored in a corner
+	// the rectangle will fill that quadrant. Otherwise, it is centered and fills
+	// according to the new strength of the pattern.
+	setDrawColor(canvas, color);
+	for (int ly = 0; ly < (TK_WINDOW_HEIGHT); ly++)
+	{
+		if (renderTopLeft)
+		{
+			SDL_RenderDrawLine(canvas->getRenderer(), 0,
+				ly/2,
+				TK_WINDOW_WIDTH / 2,
+				ly/2
+			);
+		}
+		if (renderTopRight)
+		{
+			SDL_RenderDrawLine(canvas->getRenderer(), TK_WINDOW_WIDTH / 2,
+				ly / 2,
+				TK_WINDOW_WIDTH,
+				ly / 2
+			);
+		}
+
+		if (renderBottomLeft)
+		{
+			SDL_RenderDrawLine(canvas->getRenderer(), 0,
+				(TK_WINDOW_HEIGHT / 2) + (ly / 2),
+				TK_WINDOW_WIDTH / 2,
+				(TK_WINDOW_HEIGHT / 2) + (ly / 2)
+			);
+		}
+		if (renderBottomRight)
+		{
+			SDL_RenderDrawLine(canvas->getRenderer(), TK_WINDOW_WIDTH / 2,
+				(TK_WINDOW_HEIGHT / 2) + (ly / 2),
+				TK_WINDOW_WIDTH,
+				(TK_WINDOW_HEIGHT / 2) + (ly / 2)
+			);
+		}
+
+		if (renderCenter)
+		{
+			SDL_RenderDrawLine(canvas->getRenderer(), (1.0f - strength)*(TK_WINDOW_WIDTH / 2),
+				(1.0f - strength)*(TK_WINDOW_HEIGHT / 2) + strength*ly,
+				(1.0f + strength)*(TK_WINDOW_WIDTH / 2),
+				(1.0f - strength)*(TK_WINDOW_HEIGHT / 2) + strength*ly
+			);
+		}
+	}
 }
+
 void Vexil::Pattern::renderCheckers(Canvas* canvas)
 {
 

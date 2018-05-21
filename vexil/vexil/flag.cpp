@@ -86,6 +86,12 @@ void Vexil::Flag::renderPatterns()
 		case Vexil::Pattern::triangle:
 			patterns[i].renderTriangle(canvas);
 			break;
+		case Vexil::Pattern::rectangle:
+			patterns[i].renderRectangle(canvas);
+			break;
+		case Vexil::Pattern::checkers:
+			patterns[i].renderCheckers(canvas);
+			break;
 		case Vexil::Pattern::pattNone:
 		default:
 			break;
