@@ -72,16 +72,19 @@ void Vexil::Flag::renderPatterns()
 		switch (patterns[i].getType())
 		{
 		case Vexil::Pattern::vStripes:
-			//
 			patterns[i].renderVStripes(canvas);
 			break;
 		case Vexil::Pattern::hStripes:
-			//
 			patterns[i].renderHStripes(canvas);
 			break;
 		case Vexil::Pattern::dStripes:
-			//
 			patterns[i].renderDStripes(canvas);
+			break;
+		case Vexil::Pattern::pattCross:
+			patterns[i].renderCross(canvas);
+			break;
+		case Vexil::Pattern::triangle:
+			patterns[i].renderTriangle(canvas);
 			break;
 		case Vexil::Pattern::pattNone:
 		default:

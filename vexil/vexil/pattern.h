@@ -57,6 +57,10 @@ namespace Vexil {
 		void renderVStripes(Canvas*);
 		void renderHStripes(Canvas*);
 		void renderDStripes(Canvas*);
+		void renderCross(Canvas*);
+		void renderTriangle(Canvas*);
+		void renderRectangle(Canvas*);
+		void renderCheckers(Canvas*);
 		
 	};
 }

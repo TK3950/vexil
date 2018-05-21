@@ -1,4 +1,5 @@
 #include "pattern.h"
+#include <iostream>
 
 Vexil::Pattern::Pattern()
 {
@@ -12,7 +13,6 @@ Vexil::Pattern::Pattern()
 	symmetry = (Symmetry)VexMath::getInt(21, 5322, 0, Symmetry::diagonalQuad);
 	strength = VexMath::getDouble(352, 4112, 0.0f, 1.0f);
 	firstPosition = (Position)VexMath::getInt(782, 4561, 0, Position::topLeft);
-	type = PatternType::dStripes;
 }
 
 Vexil::Pattern::PatternType Vexil::Pattern::getType()
@@ -140,4 +140,76 @@ void Vexil::Pattern::renderDStripes(Canvas* canvas)
 			}
 		}
 	}
+}
+
+void Vexil::Pattern::renderCross(Canvas* canvas)
+{
+	setDrawColor(canvas, color);
+	switch (firstPosition)
+	{
+	case Position::left:
+		for (int lx = 0; lx < strength*(TK_WINDOW_HEIGHT / 6); lx++)
+		{
+			SDL_RenderDrawLine(canvas->getRenderer(), (TK_WINDOW_WIDTH / 3)+lx, 0, (TK_WINDOW_WIDTH / 3)+lx, TK_WINDOW_HEIGHT);
+			SDL_RenderDrawLine(canvas->getRenderer(), (TK_WINDOW_WIDTH / 3)-lx, 0, (TK_WINDOW_WIDTH / 3)-lx, TK_WINDOW_HEIGHT);
+		}
+		for (int ly = 0; ly < strength*(TK_WINDOW_HEIGHT / 6); ly++)
+		{
+			SDL_RenderDrawLine(canvas->getRenderer(), 0, (TK_WINDOW_HEIGHT / 2) + ly, TK_WINDOW_WIDTH, (TK_WINDOW_HEIGHT / 2) + ly);
+			SDL_RenderDrawLine(canvas->getRenderer(), 0, (TK_WINDOW_HEIGHT / 2) - ly, TK_WINDOW_WIDTH, (TK_WINDOW_HEIGHT / 2) - ly);
+		}
+		break;
+	case Position::right:
+		for (int lx = 0; lx < strength*(TK_WINDOW_HEIGHT / 6); lx++)
+		{
+			SDL_RenderDrawLine(canvas->getRenderer(), (TK_WINDOW_WIDTH / 3) + lx, 0, (TK_WINDOW_WIDTH / 3) + lx, TK_WINDOW_HEIGHT);
+			SDL_RenderDrawLine(canvas->getRenderer(), (TK_WINDOW_WIDTH / 3) - lx, 0, (TK_WINDOW_WIDTH / 3) - lx, TK_WINDOW_HEIGHT);
+		}
+		for (int ly = 0; ly < strength*(TK_WINDOW_HEIGHT / 6); ly++)
+		{
+			SDL_RenderDrawLine(canvas->getRenderer(), 0, (TK_WINDOW_HEIGHT / 2) + ly, TK_WINDOW_WIDTH, (TK_WINDOW_HEIGHT / 2) + ly);
+			SDL_RenderDrawLine(canvas->getRenderer(), 0, (TK_WINDOW_HEIGHT / 2) - ly, TK_WINDOW_WIDTH, (TK_WINDOW_HEIGHT / 2) - ly);
+		}
+		break;
+	case Position::bottom: // centered cross that doesn't reach the edges
+		strength = (strength > .45f) ? .75f : strength;
+		strength = (strength < .25f) ? .25f : strength;
+		for (int lx = 0; lx < (strength)*(TK_WINDOW_HEIGHT / 6); lx++)
+		{
+			SDL_RenderDrawLine(canvas->getRenderer(), (TK_WINDOW_WIDTH / 2) + lx, (TK_WINDOW_HEIGHT / 2) - (TK_WINDOW_HEIGHT / 3), (TK_WINDOW_WIDTH / 2) + lx, (TK_WINDOW_HEIGHT / 2) + (TK_WINDOW_HEIGHT / 3));
+			SDL_RenderDrawLine(canvas->getRenderer(), (TK_WINDOW_WIDTH / 2) - lx, (TK_WINDOW_HEIGHT / 2) - (TK_WINDOW_HEIGHT / 3), (TK_WINDOW_WIDTH / 2) - lx, (TK_WINDOW_HEIGHT / 2) + (TK_WINDOW_HEIGHT / 3));
+		}
+		for (int ly = 0; ly < (strength)*(TK_WINDOW_HEIGHT / 6); ly++)
+		{
+			SDL_RenderDrawLine(canvas->getRenderer(), (TK_WINDOW_WIDTH / 2) - (TK_WINDOW_HEIGHT / 3), (TK_WINDOW_HEIGHT / 2) + ly, (TK_WINDOW_WIDTH / 2) + (TK_WINDOW_HEIGHT / 3), (TK_WINDOW_HEIGHT / 2) + ly);
+			SDL_RenderDrawLine(canvas->getRenderer(), (TK_WINDOW_WIDTH / 2) - (TK_WINDOW_HEIGHT / 3), (TK_WINDOW_HEIGHT / 2) - ly, (TK_WINDOW_WIDTH / 2) + (TK_WINDOW_HEIGHT / 3), (TK_WINDOW_HEIGHT / 2) - ly);
+		}
+		break;
+	case Position::top: // centered cross that reaches the edges, dividing the flag into 4 quadrants
+		for (int lx = 0; lx < (strength / 2)*(TK_WINDOW_HEIGHT / 6); lx++)
+		{
+			SDL_RenderDrawLine(canvas->getRenderer(), (TK_WINDOW_WIDTH / 2) + lx, 0, (TK_WINDOW_WIDTH / 2) + lx, TK_WINDOW_HEIGHT);
+			SDL_RenderDrawLine(canvas->getRenderer(), (TK_WINDOW_WIDTH / 2) - lx, 0, (TK_WINDOW_WIDTH / 2) - lx, TK_WINDOW_HEIGHT);
+		}
+		for (int ly = 0; ly < (strength / 2)*(TK_WINDOW_HEIGHT / 6); ly++)
+		{
+			SDL_RenderDrawLine(canvas->getRenderer(), 0, (TK_WINDOW_HEIGHT / 2) + ly, TK_WINDOW_WIDTH, (TK_WINDOW_HEIGHT / 2) + ly);
+			SDL_RenderDrawLine(canvas->getRenderer(), 0, (TK_WINDOW_HEIGHT / 2) - ly, TK_WINDOW_WIDTH, (TK_WINDOW_HEIGHT / 2) - ly);
+		}
+		break;
+	default:
+		break;
+	}
+}
+void Vexil::Pattern::renderTriangle(Canvas* canvas)
+{
+
+}
+void Vexil::Pattern::renderRectangle(Canvas* canvas)
+{
+
+}
+void Vexil::Pattern::renderCheckers(Canvas* canvas)
+{
+
 }
