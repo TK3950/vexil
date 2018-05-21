@@ -4,8 +4,8 @@
 #include <SDL.h>
 #undef main
 #include "codes.h"
-#define TK_WINDOW_HEIGHT 500
-#define TK_WINDOW_WIDTH 809
+#define TK_WINDOW_HEIGHT 505
+#define TK_WINDOW_WIDTH 808
 
 namespace Vexil {
 	class Canvas {

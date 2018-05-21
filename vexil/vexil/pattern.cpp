@@ -1,5 +1,6 @@
 #include "pattern.h"
 #include <iostream>
+#include <cmath>
 
 Vexil::Pattern::Pattern()
 {
@@ -414,5 +415,16 @@ void Vexil::Pattern::renderRectangle(Canvas* canvas)
 
 void Vexil::Pattern::renderCheckers(Canvas* canvas)
 {
-
+	int factor = 101; // must be a common factor of TK_WINDOW_HEIGHT and TK_WINDOW_WIDTH.
+					  // those values were changed to keep the checker distribution even.
+	setDrawColor(canvas, color);
+	for (int lx = 0; lx < TK_WINDOW_WIDTH; lx++)
+	{
+		for (int ly = 0; ly < TK_WINDOW_HEIGHT; ly++)
+		if ((lx / factor) % 2 != (ly / factor) % 2)
+		{
+				SDL_RenderDrawPoint(canvas->getRenderer(), lx, ly);
+		}
+	}
 }
+
