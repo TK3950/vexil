@@ -1,7 +1,7 @@
 #include "flag.h"
 #include <math.h>
 #include <iostream>
-
+#include <string>
 
 Vexil::Flag::Flag(Vexil::Canvas* c)
 {
@@ -21,6 +21,7 @@ void Vexil::Flag::createPatterns(int patternsMax)
 	}
 }
 
+
 void Vexil::Flag::createAccessories(int accessoriesMax)
 {
 	accessories = new Accessory[accessoriesMax];
@@ -38,8 +39,8 @@ void Vexil::Flag::generate()
 	double a = 1.0f;
 	baseColor = new Color(r, g, b, a);
 
-	patternCount = VexMath::getInt(400, 400, 0, Pattern::checkers);
-	accessoryCount = VexMath::getInt(400, 400, 0, Accessory::emblem);
+	patternCount = VexMath::getInt(400, 400, 0,4 );
+	accessoryCount = VexMath::getInt(400, 400, 0, 2);
 
 	std::cout << "Color: " << baseColor->getRed() << baseColor->getGreen() << baseColor->getBlue() << std::endl;
 	std::cout << patternCount << " patterns and " << accessoryCount << " accessories.\nPress G on main window to generate.\n";
@@ -49,6 +50,7 @@ void Vexil::Flag::generate()
 
 	renderBase();
 	renderPatterns();
+	renderAccessories();
 }
 
 void Vexil::Flag::setDrawColor(Canvas* canvas, Color* c)
@@ -100,13 +102,25 @@ void Vexil::Flag::renderPatterns()
 }
 void Vexil::Flag::renderAccessories()
 {
-	for (int i = 0; i < patternCount; i++)
+	for (int i = 0; i < accessoryCount; i++)
 	{
-		switch (accessories[i].getType())
+		switch (accessories[i].getPattern())
 		{
-			// now what do we do to render
-
+		case Vexil::Accessory::AccessoryPattern::bow:
+			accessories[i].renderBow(canvas);
+			break;
+		case Vexil::Accessory::AccessoryPattern::circular:
+			accessories[i].renderCircular(canvas);
+			break;
+		case Vexil::Accessory::AccessoryPattern::grid:
+			accessories[i].renderGrid(canvas);
+			break;
+		case Vexil::Accessory::AccessoryPattern::staggeredGrid:
+			accessories[i].renderStagGrid(canvas);
+			break;
+		case Vexil::Accessory::AccessoryPattern::single:
 		default:
+			accessories[i].renderSingle(canvas);
 			break;
 		}
 	}

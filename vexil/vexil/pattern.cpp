@@ -12,7 +12,7 @@ Vexil::Pattern::Pattern()
 	color = new Color(r, g, b, a);
 	type = (PatternType)VexMath::getInt(986, 23154, 0, PatternType::checkers);
 	symmetry = (Symmetry)VexMath::getInt(21, 5322, 0, Symmetry::diagonalQuad);
-	strength = VexMath::getDouble(352, 4112, 0.0f, 1.0f);
+	strength = VexMath::getDouble(352, 4112, 0.0f, .999999f);
 	firstPosition = (Position)VexMath::getInt(782, 4561, 0, Position::topLeft);
 }
 
@@ -362,6 +362,7 @@ void Vexil::Pattern::renderRectangle(Canvas* canvas)
 
 
 	strength = (strength < .25f) ? .25f : strength;
+	
 	// as a rule, rectangles have a minimum size. If it's anchored in a corner
 	// the rectangle will fill that quadrant. Otherwise, it is centered and fills
 	// according to the new strength of the pattern.

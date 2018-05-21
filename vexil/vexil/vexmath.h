@@ -1,6 +1,7 @@
 #pragma once
 #ifndef VEXMATH_H
 #define VEXMATH_H 1
+#define PI 3.1415926535
 #include "opensimplexnoise.hpp"
 
 namespace Vexil
