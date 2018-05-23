@@ -23,6 +23,35 @@ double Vexil::VexMath::getDouble(double x, double y, double min, double max)
 	return 0;
 }
 
+bool Vexil::VexMath::sameSideOfLine(Point p1, Point p2, Point a, Point b)
+{
+	Vec2d ba = Vec2d(a, b);
+	Vec2d p1a = Vec2d(a,p1);
+	Vec2d p2a = Vec2d(a,p2);
+	double cp1 = crossProduct(ba, p1a);
+	double cp2 = crossProduct(ba, p2a);
+	if (cp1*cp2 > 0)
+	{
+		return true;
+	}
+	return false;
+}
+bool Vexil::VexMath::isInsideTriangle(Point tp, Point a, Point b, Point c)
+{
+	if (sameSideOfLine(tp, a, c, b) &&
+		sameSideOfLine(tp, b, a, c) &&
+		sameSideOfLine(tp, c, a, b) )
+	{
+		return true;
+	}
+	return false;
+}
+
+double Vexil::VexMath::crossProduct(Vec2d u, Vec2d v)
+{
+	return (u.getX()*v.getY()) - (u.getY()*v.getX());
+}
+
 int Vexil::VexMath::getInt(double x, double y, int min, int max)
 {
 	if (max > min)

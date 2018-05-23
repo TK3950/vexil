@@ -117,6 +117,9 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="opensimplexnoise.cpp" />
     <ClCompile Include="pattern.cpp" />
+    <ClCompile Include="point.cpp" />
+    <ClCompile Include="triangle.cpp" />
+    <ClCompile Include="vec2d.cpp" />
     <ClCompile Include="vexmath.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -130,6 +133,9 @@
     <ClInclude Include="flag.h" />
     <ClInclude Include="opensimplexnoise.hpp" />
     <ClInclude Include="pattern.h" />
+    <ClInclude Include="point.h" />
+    <ClInclude Include="triangle.h" />
+    <ClInclude Include="vec2d.h" />
     <ClInclude Include="vexmath.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,4 +1,5 @@
 #include "accessory.h"
+#include "triangle.h"
 #include <iostream>
 
 Vexil::Accessory::Accessory()
@@ -9,7 +10,7 @@ Vexil::Accessory::Accessory()
 	double a = 1.0f;
 
 	color = new Color(r, g, b, a);
-	count = VexMath::getInt(12, 21, 0, 5);
+	count = VexMath::getInt(12, 21, 0, 7);
 	type = (AccessoryType)VexMath::getInt(986, 23154, 0, AccessoryType::emblem);
 	accessoryPattern = (AccessoryPattern)VexMath::getInt(21, 5322, 0, AccessoryPattern::bow+1);
 	size = VexMath::getDouble(352, 789, 0.25f, 0.99999f);
@@ -20,7 +21,7 @@ Vexil::Accessory::Accessory()
 
 	
 	blockPatterns = (VexMath::getInt(451, 451, 0, 4) > 1) ? false : true;
-	type = circle;
+	type = star;
 }
 
 Vexil::Accessory::AccessoryType Vexil::Accessory::getType()
@@ -136,7 +137,7 @@ void Vexil::Accessory::renderShape(Canvas* canvas, int lx, int ly)
 	switch (type)
 	{
 	case Vexil::Accessory::star:
-		//renderStar(canvas, lx, ly);
+		renderStar(canvas, lx, ly);
 		break;
 	case Vexil::Accessory::accCross:
 		//renderCross(canvas, lx, ly);
@@ -184,4 +185,72 @@ void Vexil::Accessory::renderCircle(Canvas* canvas, int ix, int iy)
 			}
 		}
 	}
+}
+
+void Vexil::Accessory::renderStar(Canvas* canvas, int ix, int iy)
+{
+	setDrawColor(canvas, color);
+	double radius = (TK_WINDOW_HEIGHT / (5 * count))*size;
+	int px[5];
+	int py[5];
+	int sx[5];
+	int sy[5];
+	for (int i = 0; i < 5; i++)
+	{
+		double angle = DEG360 / 5.0f;
+		px[i] = radius * cos(angle*+i - DEG90);
+		py[i] = radius * sin(angle*i - DEG90);
+	}
+	for (int i = 0; i < 5; i++)
+	{
+		double angle = DEG360 / 5.0f;
+		double phase = DEG360 / 10.0f - DEG90;
+		sx[i] = .4f *radius * cos(angle*i + phase);
+		sy[i] = .4f * radius * sin(angle*i + phase);
+	}
+	Triangle t1 = Triangle(
+		Point(ix + px[4], iy + py[4]),
+		Point(ix + px[2], iy + py[2]),
+		Point(ix + sx[0], iy + sy[0])
+	);
+
+	Triangle t2 = Triangle(
+		Point(ix + px[3], iy + py[3]),
+		Point(ix + px[1], iy + py[1]),
+		Point(ix + sx[4], iy + sy[4])
+	);
+
+	Triangle t3 = Triangle(
+		Point(ix + px[0], iy + py[0]),
+		Point(ix + px[3], iy + py[3]),
+		Point(ix + sx[1], iy + sy[1])
+
+	);
+	Triangle t4 = Triangle(
+		Point(ix + px[0], iy + py[0]),
+		Point(ix + sx[1], iy + sy[1]),
+		Point(ix + sx[3], iy + sy[3])
+
+	);
+
+
+	for (int i = ix - radius; i < ix + radius; i++)
+	{
+		for (int j = iy - radius; j < iy + radius; j++)
+		{
+			if (VexMath::isInsideTriangle(Point(i, j), t1.getA(), t1.getB(), t1.getC()))
+			{
+				SDL_RenderDrawPoint(canvas->getRenderer(), i, j);
+			}
+			else if (VexMath::isInsideTriangle(Point(i, j), t2.getA(), t2.getB(), t2.getC()))
+			{
+				SDL_RenderDrawPoint(canvas->getRenderer(), i, j);
+			}
+			else if (VexMath::isInsideTriangle(Point(i, j), t3.getA(), t3.getB(), t3.getC()))
+			{
+				SDL_RenderDrawPoint(canvas->getRenderer(), i, j);
+			}
+		}
+	}
+	
 }
