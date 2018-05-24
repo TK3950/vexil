@@ -77,7 +77,6 @@ void Vexil::Accessory::renderSingle(Canvas* canvas)
 }
 void Vexil::Accessory::renderGrid(Canvas* canvas)
 {
-	std::cout << "grid";
 	int yMax = (TK_WINDOW_HEIGHT / 2)*size;
 	int xMax = (TK_WINDOW_WIDTH / 2)*size;
 	int xIncr = xMax / count;
@@ -112,7 +111,6 @@ void Vexil::Accessory::renderBow(Canvas* canvas)
 }
 void Vexil::Accessory::renderStagGrid(Canvas* canvas)
 {
-	std::cout << "staggered";
 	for (int i = 0; i < count; i++)
 	{
 		int yMax = (TK_WINDOW_HEIGHT / 2)*size;
@@ -226,13 +224,6 @@ void Vexil::Accessory::renderStar(Canvas* canvas, int ix, int iy)
 		Point(ix + sx[1], iy + sy[1])
 
 	);
-	Triangle t4 = Triangle(
-		Point(ix + px[0], iy + py[0]),
-		Point(ix + sx[1], iy + sy[1]),
-		Point(ix + sx[3], iy + sy[3])
-
-	);
-
 
 	for (int i = ix - radius; i < ix + radius; i++)
 	{
