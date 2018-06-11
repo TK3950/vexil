@@ -15,12 +15,12 @@ namespace Vexil
 	{
 		
 	public:
-		static double getDouble(double, double, double, double);
-		static int getInt(double, double, int, int);
-		static double getRawNoise(int,int);
-		static double crossProduct(Vec2d, Vec2d);
-		static bool sameSideOfLine(Point, Point, Point, Point);
-		static bool isInsideTriangle(Point, Point, Point, Point);
+		static double getDouble(double x, double y, double min, double max);
+		static int getInt(double x, double y, int min, int max);
+		static double getRawNoise(int x,int y);
+		static double crossProduct(Vec2d v1, Vec2d v2);
+		static bool sameSideOfLine(Point tp, Point ref, Point a, Point b);
+		static bool isInsideTriangle(Point tp, Point a, Point b, Point c);
 	};
 }
 #endif

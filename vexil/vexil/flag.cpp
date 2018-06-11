@@ -38,7 +38,7 @@ void Vexil::Flag::generate()
 	double b = VexMath::getDouble(550, 15, 0.0f, 1.0f);
 	double a = 1.0f;
 	baseColor = new Color(r, g, b, a);
-
+	palette = new Palette();
 	patternCount = VexMath::getInt(400, 400, 0,4 );
 	accessoryCount = VexMath::getInt(400, 400, 0, 2);
 
@@ -91,9 +91,6 @@ void Vexil::Flag::renderPatterns()
 		case Vexil::Pattern::rectangle:
 			patterns[i].renderRectangle(canvas);
 			break;
-		case Vexil::Pattern::checkers:
-			patterns[i].renderCheckers(canvas);
-			break;
 		case Vexil::Pattern::pattNone:
 		default:
 			break;
@@ -128,4 +125,19 @@ void Vexil::Flag::renderAccessories()
 void Vexil::Flag::renderText()
 {
 
+}
+
+void Vexil::Flag::testPalette()
+{
+	setDrawColor(canvas, (palette->getColor(0)));
+	SDL_RenderClear(canvas->getRenderer());
+
+	for (int i = 1; i <= 3; i++)
+	{
+		setDrawColor(canvas, (palette->getColor(i)));
+		for (int xx = i*(TK_WINDOW_WIDTH / 4); xx < TK_WINDOW_WIDTH; xx++)
+		{
+			SDL_RenderDrawLine(canvas->getRenderer(), xx, 0, xx, TK_WINDOW_HEIGHT);
+		}
+	}
 }

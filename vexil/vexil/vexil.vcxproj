@@ -116,6 +116,7 @@
     <ClCompile Include="flag.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="opensimplexnoise.cpp" />
+    <ClCompile Include="palette.cpp" />
     <ClCompile Include="pattern.cpp" />
     <ClCompile Include="point.cpp" />
     <ClCompile Include="triangle.cpp" />
@@ -132,6 +133,7 @@
     <ClInclude Include="color.h" />
     <ClInclude Include="flag.h" />
     <ClInclude Include="opensimplexnoise.hpp" />
+    <ClInclude Include="palette.h" />
     <ClInclude Include="pattern.h" />
     <ClInclude Include="point.h" />
     <ClInclude Include="triangle.h" />

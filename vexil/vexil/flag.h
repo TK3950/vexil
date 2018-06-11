@@ -5,6 +5,7 @@
 #include "pattern.h"
 #include "accessory.h"
 #include "opensimplexnoise.hpp"
+#include "palette.h"
 
 namespace Vexil
 {
@@ -30,6 +31,7 @@ namespace Vexil
 		Pattern* patterns;
 		Accessory* accessories;
 		Canvas* canvas;
+		Palette* palette;
 		
 	public:
 		Flag(Canvas*);
@@ -38,6 +40,7 @@ namespace Vexil
 		Color getBaseColor();
 		int getPatternCount();
 		int getAccessoryCount();
+		
 		Pattern getPattern(int);
 		Accessory getAccessory(int);
 
@@ -50,6 +53,8 @@ namespace Vexil
 		void renderPatterns(); // render second
 		void renderAccessories(); // render third
 		void renderText(); // render last, if ever
+		
+		void testPalette();
 	};
 }
 

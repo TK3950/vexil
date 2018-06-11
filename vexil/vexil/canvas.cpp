@@ -92,6 +92,10 @@ int Vexil::Canvas::GetAllEvents()
 		{
 			return TK_CODE_GENERATE;
 		}
+		if (events->key.keysym.scancode == SDL_SCANCODE_T && events->key.state == SDL_PRESSED)
+		{
+			return TK_CODE_TEST_PALETTE;
+		}
 
 		if (events->key.keysym.scancode >= SDL_SCANCODE_A && events->key.keysym.scancode <= SDL_SCANCODE_0 && events->key.keysym.scancode != SDL_SCANCODE_Q && events->key.state == SDL_PRESSED)
 		{

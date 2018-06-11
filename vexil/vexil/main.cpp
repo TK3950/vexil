@@ -41,6 +41,11 @@ int main()
 			flag->generate();
 			canvas->UpdateToScreen();
 		}
+		else if (response == TK_CODE_TEST_PALETTE)
+		{
+			flag->testPalette();
+			canvas->UpdateToScreen();
+		}
 	}
 
 	if (TK_QUIT)

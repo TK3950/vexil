@@ -23,24 +23,24 @@ double Vexil::VexMath::getDouble(double x, double y, double min, double max)
 	return 0;
 }
 
-bool Vexil::VexMath::sameSideOfLine(Point p1, Point p2, Point a, Point b)
+bool Vexil::VexMath::sameSideOfLine(Point testPoint, Point reference, Point a, Point b)
 {
-	Vec2d ba = Vec2d(a, b);
-	Vec2d p1a = Vec2d(a,p1);
-	Vec2d p2a = Vec2d(a,p2);
-	double cp1 = crossProduct(ba, p1a);
-	double cp2 = crossProduct(ba, p2a);
+	Vec2d ba = Vec2d(b, a);
+	Vec2d testVector = Vec2d(testPoint, a);
+	Vec2d referenceVector = Vec2d(reference,a);
+	double cp1 = crossProduct(ba, testVector);
+	double cp2 = crossProduct(ba, referenceVector);
 	if (cp1*cp2 > 0)
 	{
 		return true;
 	}
 	return false;
 }
-bool Vexil::VexMath::isInsideTriangle(Point tp, Point a, Point b, Point c)
+bool Vexil::VexMath::isInsideTriangle(Point testPoint, Point a, Point b, Point c)
 {
-	if (sameSideOfLine(tp, a, c, b) &&
-		sameSideOfLine(tp, b, a, c) &&
-		sameSideOfLine(tp, c, a, b) )
+	if (sameSideOfLine(testPoint, a, b, c) &&
+		sameSideOfLine(testPoint, b, a, c) &&
+		sameSideOfLine(testPoint, c, a, b) )
 	{
 		return true;
 	}

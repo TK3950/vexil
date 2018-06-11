@@ -11,7 +11,7 @@ Vexil::Accessory::Accessory()
 
 	color = new Color(r, g, b, a);
 	count = VexMath::getInt(12, 21, 0, 7);
-	type = (AccessoryType)VexMath::getInt(986, 23154, 0, AccessoryType::emblem);
+	type = (AccessoryType)VexMath::getInt(986, 23154, 0, AccessoryType::emblem+1);
 	accessoryPattern = (AccessoryPattern)VexMath::getInt(21, 5322, 0, AccessoryPattern::bow+1);
 	size = VexMath::getDouble(352, 789, 0.25f, 0.99999f);
 	location = (AccessoryLocation)VexMath::getInt(124, 986, 0, AccessoryLocation::center+1);
@@ -19,9 +19,7 @@ Vexil::Accessory::Accessory()
 	x = VexMath::getDouble(753, 159, 0.0, (double)TK_WINDOW_WIDTH);
 	y = VexMath::getDouble(159, 486, 0.0, (double)TK_WINDOW_WIDTH);
 
-	
 	blockPatterns = (VexMath::getInt(451, 451, 0, 4) > 1) ? false : true;
-	type = star;
 }
 
 Vexil::Accessory::AccessoryType Vexil::Accessory::getType()
@@ -193,12 +191,14 @@ void Vexil::Accessory::renderStar(Canvas* canvas, int ix, int iy)
 	int py[5];
 	int sx[5];
 	int sy[5];
+	// exterior points
 	for (int i = 0; i < 5; i++)
 	{
 		double angle = DEG360 / 5.0f;
 		px[i] = radius * cos(angle*+i - DEG90);
 		py[i] = radius * sin(angle*i - DEG90);
 	}
+	// interior points
 	for (int i = 0; i < 5; i++)
 	{
 		double angle = DEG360 / 5.0f;

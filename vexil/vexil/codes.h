@@ -7,5 +7,6 @@
 #define TK_CODE_MISC 802 
 #define TK_CODE_SAVE 803
 #define TK_CODE_GENERATE 805
+#define TK_CODE_TEST_PALETTE 807
 
 #endif
