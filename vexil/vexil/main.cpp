@@ -46,6 +46,11 @@ int main()
 			flag->testPalette();
 			canvas->UpdateToScreen();
 		}
+		else if (response == TK_CODE_VIEW_PALETTE)
+		{
+			flag->viewPalette();
+			canvas->UpdateToScreen();
+		}
 	}
 
 	if (TK_QUIT)

@@ -55,6 +55,7 @@ namespace Vexil
 		void renderText(); // render last, if ever
 		
 		void testPalette();
+		void viewPalette();
 	};
 }
 

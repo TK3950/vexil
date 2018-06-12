@@ -130,6 +130,22 @@ void Vexil::Flag::renderText()
 
 void Vexil::Flag::testPalette()
 {
+	generate();
+	setDrawColor(canvas, (palette->getColorAt(0)));
+	SDL_RenderClear(canvas->getRenderer());
+
+	for (int i = 1; i <= 3; i++)
+	{
+		setDrawColor(canvas, (palette->getColorAt(i)));
+		for (int xx = i*(TK_WINDOW_WIDTH / 4); xx < TK_WINDOW_WIDTH; xx++)
+		{
+			SDL_RenderDrawLine(canvas->getRenderer(), xx, 0, xx, TK_WINDOW_HEIGHT);
+		}
+	}
+}
+
+void Vexil::Flag::viewPalette()
+{
 	setDrawColor(canvas, (palette->getColorAt(0)));
 	SDL_RenderClear(canvas->getRenderer());
 

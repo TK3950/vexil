@@ -8,5 +8,6 @@
 #define TK_CODE_SAVE 803
 #define TK_CODE_GENERATE 805
 #define TK_CODE_TEST_PALETTE 807
+#define TK_CODE_VIEW_PALETTE 809
 
 #endif
