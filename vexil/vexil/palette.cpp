@@ -1,28 +1,42 @@
 #include "palette.h"
 #include "vexmath.h"
+#include <iostream>
 
 Vexil::Palette::Palette()
 {
 	hue = VexMath::getDouble(2341, 625, 0.0f, 360.f);
-	distance = VexMath::getDouble(1243, 324, 0.0f, 360.f);
-	type = (PaletteType)VexMath::getInt(124, 5553, 1, (int)Palette::Tetra);
+	deltaHue = VexMath::getDouble(1243, 324, 0.0f, 180.0f);
+	
+	type = (VexMath::getBool(124, 536)) ? PaletteType::Tri : PaletteType::Tetra;
 
-	base = new Color(getColor(hue,0.0f));
+	colorNull = new Color(0.0f, 0.0f, 0.0f, 1.0f);
+	base = new Color(getRgbColor(hue,0.0f));
 	complements = new Color*[3];
+	
+	if (type == PaletteType::Tetra)
+	{
+		complements[0] = new Color(getRgbColor(hue, deltaHue));
+		complements[1] = new Color(getRgbColor(hue + 180, 0.0f));
+		complements[2] = new Color(getRgbColor(hue + 180, deltaHue));
+		
+	}
+	if (type == PaletteType::Tri)
+	{
+		complements[0] = new Color(getRgbColor(hue, deltaHue));
+		complements[1] = new Color(getRgbColor(hue, -deltaHue));
+		complements[2] = new Color(getRgbColor(hue, 0.0f));
+	}
 
-	complements[0] = new Color(getColor(hue, distance));
-	complements[1] = new Color(getColor(hue, -distance));
-	complements[2] = new Color(getColor(hue+180, distance));
 }
 
 Vexil::Palette::Palette(double h, double d, PaletteType t)
 {
 	hue = h;
-	distance = d;
+	deltaHue = d;
 	type = t;
 }
 
-Color Vexil::Palette::getColor(double h, double d)
+Color Vexil::Palette::getRgbColor(double h, double d)
 {
 	// this algorithm uses lin. interp. and thus produces inaccurate colors.
 	// please adjust this interp
@@ -70,15 +84,19 @@ Color Vexil::Palette::getColor(double h, double d)
 		r = (h - 210) / 105.0f;
 		g = (315 - h) / 105.0f;
 	}
-	return Color(r, g, b, 1.0f);
+	return Color(r, g, b, 0.68f);
 }
 
-Color* Vexil::Palette::getColor(int index)
+Color* Vexil::Palette::getColorAt(int index)
 {
-	if (index > 3 || index < 0)
-		return &Color(0, 0, 0, 1);
-	else if (index == 0)
-		return base;
-	else
-		return complements[index - 1];
+	if (this != NULL)
+	{
+		if (index > 3 || index < 0)
+			return colorNull;
+		else if (index == 3)
+			return base;
+		else
+			return complements[index];
+	}
+	return colorNull;
 }

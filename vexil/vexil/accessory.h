@@ -4,6 +4,7 @@
 #include "color.h"
 #include "vexmath.h"
 #include "canvas.h"
+#include "palette.h"
 
 namespace Vexil
 {
@@ -50,6 +51,7 @@ namespace Vexil
 		int x;
 		int y; // accessories have positions
 		Color* color;
+		int colorSelect;
 
 	public:
 		AccessoryType getType();
@@ -65,23 +67,23 @@ namespace Vexil
 
 		void setDrawColor(Canvas*, Color*);
 
-		void renderSingle(Canvas*);
-		void renderGrid(Canvas*);
-		void renderCircular(Canvas*);
-		void renderBow(Canvas*);
-		void renderStagGrid(Canvas*);
+		void renderSingle(Canvas*, Palette* palette);
+		void renderGrid(Canvas*, Palette* palette);
+		void renderCircular(Canvas*, Palette* palette);
+		void renderBow(Canvas*, Palette* palette);
+		void renderStagGrid(Canvas*, Palette* palette);
 
-		void renderShape(Canvas *, int, int);
+		void renderShape(Canvas *, Palette* palette, int, int);
 
-		void renderStar(Canvas*, int, int);
-		void renderCross(Canvas*, int, int);
-		void renderMoon(Canvas*, int, int);
-		void renderCircle(Canvas*, int, int);
-		void renderLeaf(Canvas*, int, int);
-		void renderTree(Canvas*, int, int);
-		void renderDiamond(Canvas*, int, int);
-		void renderSun(Canvas*, int, int);
-		void renderEmblem(Canvas *, int, int);
+		void renderStar(Canvas*, Palette* palette, int, int);
+		void renderCross(Canvas*, Palette* palette, int, int);
+		void renderMoon(Canvas*, Palette* palette, int, int);
+		void renderCircle(Canvas*, Palette* palette, int, int);
+		void renderLeaf(Canvas*, Palette* palette, int, int);
+		void renderTree(Canvas*, Palette* palette, int, int);
+		void renderDiamond(Canvas*, Palette* palette, int, int);
+		void renderSun(Canvas*, Palette* palette, int, int);
+		void renderEmblem(Canvas *, Palette* palette, int, int);
 	};
 }
 #endif

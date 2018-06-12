@@ -42,8 +42,7 @@ void Vexil::Flag::generate()
 	patternCount = VexMath::getInt(400, 400, 0,4 );
 	accessoryCount = VexMath::getInt(400, 400, 0, 2);
 
-	std::cout << "Color: " << baseColor->getRed() << baseColor->getGreen() << baseColor->getBlue() << std::endl;
-	std::cout << patternCount << " patterns and " << accessoryCount << " accessories.\nPress G on main window to generate.\n";
+	std::cout << "Press G on main window to generate.\n";
 
 	createPatterns(patternCount);
 	createAccessories(accessoryCount);
@@ -64,32 +63,33 @@ void Vexil::Flag::setDrawColor(Canvas* canvas, Color* c)
 
 void Vexil::Flag::renderBase()
 {
-	setDrawColor(canvas, baseColor);
+	setDrawColor(canvas, palette->getColorAt(0));
 	SDL_RenderClear(canvas->getRenderer());
 }
 void Vexil::Flag::renderPatterns()
 {
+	
 	for (int i = 0; i < patternCount; i++)
 	{
 		switch (patterns[i].getType())
 		{
 		case Vexil::Pattern::vStripes:
-			patterns[i].renderVStripes(canvas);
+			patterns[i].renderVStripes(canvas, palette);
 			break;
 		case Vexil::Pattern::hStripes:
-			patterns[i].renderHStripes(canvas);
+			patterns[i].renderHStripes(canvas, palette);
 			break;
 		case Vexil::Pattern::dStripes:
-			patterns[i].renderDStripes(canvas);
+			patterns[i].renderDStripes(canvas, palette);
 			break;
 		case Vexil::Pattern::pattCross:
-			patterns[i].renderCross(canvas);
+			patterns[i].renderCross(canvas, palette);
 			break;
 		case Vexil::Pattern::triangle:
-			patterns[i].renderTriangle(canvas);
+			patterns[i].renderTriangle(canvas, palette);
 			break;
 		case Vexil::Pattern::rectangle:
-			patterns[i].renderRectangle(canvas);
+			patterns[i].renderRectangle(canvas, palette);
 			break;
 		case Vexil::Pattern::pattNone:
 		default:
@@ -99,25 +99,26 @@ void Vexil::Flag::renderPatterns()
 }
 void Vexil::Flag::renderAccessories()
 {
+	
 	for (int i = 0; i < accessoryCount; i++)
 	{
 		switch (accessories[i].getPattern())
 		{
 		case Vexil::Accessory::AccessoryPattern::bow:
-			accessories[i].renderBow(canvas);
+			accessories[i].renderBow(canvas, palette);
 			break;
 		case Vexil::Accessory::AccessoryPattern::circular:
-			accessories[i].renderCircular(canvas);
+			accessories[i].renderCircular(canvas, palette);
 			break;
 		case Vexil::Accessory::AccessoryPattern::grid:
-			accessories[i].renderGrid(canvas);
+			accessories[i].renderGrid(canvas, palette);
 			break;
 		case Vexil::Accessory::AccessoryPattern::staggeredGrid:
-			accessories[i].renderStagGrid(canvas);
+			accessories[i].renderStagGrid(canvas, palette);
 			break;
 		case Vexil::Accessory::AccessoryPattern::single:
 		default:
-			accessories[i].renderSingle(canvas);
+			accessories[i].renderSingle(canvas, palette);
 			break;
 		}
 	}
@@ -129,12 +130,12 @@ void Vexil::Flag::renderText()
 
 void Vexil::Flag::testPalette()
 {
-	setDrawColor(canvas, (palette->getColor(0)));
+	setDrawColor(canvas, (palette->getColorAt(0)));
 	SDL_RenderClear(canvas->getRenderer());
 
 	for (int i = 1; i <= 3; i++)
 	{
-		setDrawColor(canvas, (palette->getColor(i)));
+		setDrawColor(canvas, (palette->getColorAt(i)));
 		for (int xx = i*(TK_WINDOW_WIDTH / 4); xx < TK_WINDOW_WIDTH; xx++)
 		{
 			SDL_RenderDrawLine(canvas->getRenderer(), xx, 0, xx, TK_WINDOW_HEIGHT);

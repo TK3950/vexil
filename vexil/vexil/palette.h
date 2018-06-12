@@ -6,23 +6,26 @@ namespace Vexil {
 	class Palette {
 	public:
 		enum PaletteType{
-			Mono = 1,
-			Tri = 2,
-			Tetra = 3,
+			Tri = 1,
+			Tetra = 2,
 		};
 	private:
 
 		double hue;
-		double distance;
+		double saturation;
+		double value;
+		double deltaHue;
+		double deltaSat;
 		PaletteType type;
-		Color getColor(double h, double d);
+		Color getRgbColor(double h, double d);
 
 		Color* base;
 		Color** complements;
+		Color* colorNull;
 	public:
 		Palette();
 		Palette(double h, double d, PaletteType t);
-		Color* getColor(int index);
+		Color* getColorAt(int index);
 	};
 }
 

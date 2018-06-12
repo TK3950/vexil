@@ -4,6 +4,7 @@
 #include "color.h"
 #include "vexmath.h"
 #include "canvas.h"
+#include "palette.h"
 
 namespace Vexil {
 	class Pattern {
@@ -47,6 +48,7 @@ namespace Vexil {
 		Position firstPosition;
 		double strength;
 		Color* color;
+		int colorSelect;
 	public:
 		Pattern();
 		PatternType getType();
@@ -54,13 +56,13 @@ namespace Vexil {
 		double getStrength();
 		Color* getColor();
 		void setDrawColor(Canvas*, Color*);
-		void renderVStripes(Canvas*);
-		void renderHStripes(Canvas*);
-		void renderDStripes(Canvas*);
-		void renderCross(Canvas*);
-		void renderTriangle(Canvas*);
-		void renderRectangle(Canvas*);
-		void renderCheckers(Canvas*);
+		void renderVStripes(Canvas*, Palette* palette);
+		void renderHStripes(Canvas*, Palette* palette);
+		void renderDStripes(Canvas*, Palette* palette);
+		void renderCross(Canvas*, Palette* palette);
+		void renderTriangle(Canvas*, Palette* palette);
+		void renderRectangle(Canvas*, Palette* palette);
+		void renderCheckers(Canvas*, Palette* palette);
 		
 	};
 }

@@ -14,6 +14,7 @@ Vexil::Pattern::Pattern()
 	symmetry = (Symmetry)VexMath::getInt(21, 5322, 0, Symmetry::diagonalQuad);
 	strength = VexMath::getDouble(352, 4112, 0.0f, .999999f);
 	firstPosition = (Position)VexMath::getInt(782, 4561, 0, Position::topLeft);
+	colorSelect = VexMath::getInt(964, 986, 1, 3);
 }
 
 Vexil::Pattern::PatternType Vexil::Pattern::getType()
@@ -42,7 +43,7 @@ void Vexil::Pattern::setDrawColor(Canvas* canvas, Color* c)
 		(int)(c->getAlpha() * 255));
 }
 
-void Vexil::Pattern::renderVStripes(Canvas* canvas)
+void Vexil::Pattern::renderVStripes(Canvas* canvas, Palette* palette)
 {
 	for (int lx = 0; lx < TK_WINDOW_WIDTH; lx++)
 	{
@@ -51,7 +52,7 @@ void Vexil::Pattern::renderVStripes(Canvas* canvas)
 		{
 			if (lx < (TK_WINDOW_WIDTH *strength))
 			{
-				setDrawColor(canvas, color);
+				setDrawColor(canvas, palette->getColorAt(colorSelect));
 				SDL_RenderDrawLine(canvas->getRenderer(), lx, 0, lx, TK_WINDOW_HEIGHT);
 				if (symmetry == Pattern::vertical)
 				{
@@ -64,7 +65,7 @@ void Vexil::Pattern::renderVStripes(Canvas* canvas)
 		{
 			if (lx > (TK_WINDOW_WIDTH *strength))
 			{
-				setDrawColor(canvas, color);
+				setDrawColor(canvas, palette->getColorAt(colorSelect));
 				SDL_RenderDrawLine(canvas->getRenderer(), lx, 0, lx, TK_WINDOW_HEIGHT);
 				if (symmetry == Pattern::vertical)
 				{
@@ -75,7 +76,7 @@ void Vexil::Pattern::renderVStripes(Canvas* canvas)
 	}
 }
 
-void Vexil::Pattern::renderHStripes(Canvas* canvas)
+void Vexil::Pattern::renderHStripes(Canvas* canvas, Palette* palette)
 {
 	for (int ly = 0; ly < TK_WINDOW_HEIGHT; ly++)
 	{
@@ -84,7 +85,7 @@ void Vexil::Pattern::renderHStripes(Canvas* canvas)
 		{
 			if (ly < (TK_WINDOW_HEIGHT *strength))
 			{
-				setDrawColor(canvas, color);
+				setDrawColor(canvas, palette->getColorAt(colorSelect));
 				SDL_RenderDrawLine(canvas->getRenderer(), 0, ly, TK_WINDOW_WIDTH, ly);
 				if (symmetry == Pattern::horizontal)
 				{
@@ -97,7 +98,7 @@ void Vexil::Pattern::renderHStripes(Canvas* canvas)
 		{
 			if (ly > (TK_WINDOW_HEIGHT *strength))
 			{
-				setDrawColor(canvas, color);
+				setDrawColor(canvas, palette->getColorAt(colorSelect));
 				SDL_RenderDrawLine(canvas->getRenderer(), 0, ly, TK_WINDOW_WIDTH, ly);
 				if (symmetry == Pattern::horizontal)
 				{
@@ -108,7 +109,7 @@ void Vexil::Pattern::renderHStripes(Canvas* canvas)
 	}
 }
 
-void Vexil::Pattern::renderDStripes(Canvas* canvas)
+void Vexil::Pattern::renderDStripes(Canvas* canvas, Palette* palette)
 {
 	for (int lx = 0; lx < TK_WINDOW_WIDTH; lx++)
 	{
@@ -118,7 +119,7 @@ void Vexil::Pattern::renderDStripes(Canvas* canvas)
 			/* Draw forward slashes / */
 			if (lx < (TK_WINDOW_HEIGHT *strength))
 			{
-				setDrawColor(canvas, color);
+				setDrawColor(canvas, palette->getColorAt(colorSelect));
 				SDL_RenderDrawLine(canvas->getRenderer(), lx, 0, 0, lx);
 				if (symmetry == Pattern::horizontal)
 				{
@@ -132,7 +133,7 @@ void Vexil::Pattern::renderDStripes(Canvas* canvas)
 			/* Draw backward slashes \ */
 			if (lx < (TK_WINDOW_WIDTH *strength))
 			{
-				setDrawColor(canvas, color);
+				setDrawColor(canvas, palette->getColorAt(colorSelect));
 				SDL_RenderDrawLine(canvas->getRenderer(), lx, TK_WINDOW_HEIGHT, 0, TK_WINDOW_HEIGHT-lx);
 				if (symmetry == Pattern::horizontal)
 				{
@@ -143,9 +144,9 @@ void Vexil::Pattern::renderDStripes(Canvas* canvas)
 	}
 }
 
-void Vexil::Pattern::renderCross(Canvas* canvas)
+void Vexil::Pattern::renderCross(Canvas* canvas, Palette* palette)
 {
-	setDrawColor(canvas, color);
+	setDrawColor(canvas, palette->getColorAt(colorSelect));
 	switch (firstPosition)
 	{
 	case Position::left:
@@ -203,7 +204,7 @@ void Vexil::Pattern::renderCross(Canvas* canvas)
 	}
 }
 
-void Vexil::Pattern::renderTriangle(Canvas* canvas)
+void Vexil::Pattern::renderTriangle(Canvas* canvas, Palette* palette)
 {
 	bool renderTop = false;
 	bool renderBottom = false;
@@ -245,7 +246,7 @@ void Vexil::Pattern::renderTriangle(Canvas* canvas)
 
 	strength = (strength > .45f) ? .75f : strength;
 	strength = (strength < .25f) ? .25f : strength;
-	setDrawColor(canvas, color);
+	setDrawColor(canvas, palette->getColorAt(colorSelect));
 	if (renderTop)
 	{
 		for (int lx = 0; lx < (strength*TK_WINDOW_WIDTH); lx++)
@@ -312,7 +313,7 @@ void Vexil::Pattern::renderTriangle(Canvas* canvas)
 
 }
 
-void Vexil::Pattern::renderRectangle(Canvas* canvas)
+void Vexil::Pattern::renderRectangle(Canvas* canvas, Palette* palette)
 {
 	bool renderTopLeft = false;
 	bool renderBottomRight = false;
@@ -366,7 +367,7 @@ void Vexil::Pattern::renderRectangle(Canvas* canvas)
 	// as a rule, rectangles have a minimum size. If it's anchored in a corner
 	// the rectangle will fill that quadrant. Otherwise, it is centered and fills
 	// according to the new strength of the pattern.
-	setDrawColor(canvas, color);
+	setDrawColor(canvas, palette->getColorAt(colorSelect));
 	for (int ly = 0; ly < (TK_WINDOW_HEIGHT); ly++)
 	{
 		if (renderTopLeft)
@@ -414,11 +415,11 @@ void Vexil::Pattern::renderRectangle(Canvas* canvas)
 	}
 }
 
-void Vexil::Pattern::renderCheckers(Canvas* canvas)
+void Vexil::Pattern::renderCheckers(Canvas* canvas, Palette* palette)
 {
 	int factor = 101; // must be a common factor of TK_WINDOW_HEIGHT and TK_WINDOW_WIDTH.
 					  // those values were changed to keep the checker distribution even.
-	setDrawColor(canvas, color);
+	setDrawColor(canvas, palette->getColorAt(colorSelect));
 	for (int lx = 0; lx < TK_WINDOW_WIDTH; lx++)
 	{
 		for (int ly = 0; ly < TK_WINDOW_HEIGHT; ly++)

@@ -18,6 +18,7 @@ namespace Vexil
 		static double getDouble(double x, double y, double min, double max);
 		static int getInt(double x, double y, int min, int max);
 		static double getRawNoise(int x,int y);
+		static bool getBool(int x, int y);
 		static double crossProduct(Vec2d v1, Vec2d v2);
 		static bool sameSideOfLine(Point tp, Point ref, Point a, Point b);
 		static bool isInsideTriangle(Point tp, Point a, Point b, Point c);

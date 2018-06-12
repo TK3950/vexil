@@ -20,6 +20,8 @@ Vexil::Accessory::Accessory()
 	y = VexMath::getDouble(159, 486, 0.0, (double)TK_WINDOW_WIDTH);
 
 	blockPatterns = (VexMath::getInt(451, 451, 0, 4) > 1) ? false : true;
+
+	colorSelect = VexMath::getInt(2134, 4543, 0, 3);
 }
 
 Vexil::Accessory::AccessoryType Vexil::Accessory::getType()
@@ -69,11 +71,11 @@ void Vexil::Accessory::setDrawColor(Canvas* canvas, Color* c)
 }
 
 
-void Vexil::Accessory::renderSingle(Canvas* canvas)
+void Vexil::Accessory::renderSingle(Canvas* canvas, Palette* palette)
 {
-	renderShape(canvas, x, y);
+	renderShape(canvas, palette, x, y);
 }
-void Vexil::Accessory::renderGrid(Canvas* canvas)
+void Vexil::Accessory::renderGrid(Canvas* canvas, Palette* palette)
 {
 	int yMax = (TK_WINDOW_HEIGHT / 2)*size;
 	int xMax = (TK_WINDOW_WIDTH / 2)*size;
@@ -83,31 +85,31 @@ void Vexil::Accessory::renderGrid(Canvas* canvas)
 	{
 		for (int j = 0; j < count; j++)
 		{
-			renderShape(canvas, x+i*xIncr, y+j*yIncr);
+			renderShape(canvas, palette, x+i*xIncr, y+j*yIncr);
 		}
 	}
 }
-void Vexil::Accessory::renderCircular(Canvas* canvas)
+void Vexil::Accessory::renderCircular(Canvas* canvas, Palette* palette)
 {
 	double radius = (TK_WINDOW_HEIGHT / 4)*size;
 	for (int i = 0; i < count; i++)
 	{
 		int lx = radius * cos(((2 * PI) / (double)count) * i);
 		int ly = radius * sin(((2 * PI) / (double)count) * i);
-		renderShape(canvas, x+lx, y+ly);
+		renderShape(canvas, palette, x+lx, y+ly);
 	}
 }
-void Vexil::Accessory::renderBow(Canvas* canvas)
+void Vexil::Accessory::renderBow(Canvas* canvas, Palette* palette)
 {
 	double radius = (TK_WINDOW_HEIGHT / 2)*size;
 	for (int i = 1; i < count-1; i++)
 	{
 		int lx = radius * cos(((PI) / (double)count) * i);
 		int ly = radius * sin(((PI) / (double)count) * i);
-		renderShape(canvas, x+lx, y+ly);
+		renderShape(canvas, palette, x+lx, y+ly);
 	}
 }
-void Vexil::Accessory::renderStagGrid(Canvas* canvas)
+void Vexil::Accessory::renderStagGrid(Canvas* canvas, Palette* palette)
 {
 	for (int i = 0; i < count; i++)
 	{
@@ -121,43 +123,43 @@ void Vexil::Accessory::renderStagGrid(Canvas* canvas)
 			{
 				if (j%2 == i%2)
 				{
-					renderShape(canvas, x+i*xIncr, y+j*yIncr);
+					renderShape(canvas, palette, x+i*xIncr, y+j*yIncr);
 				}
 			}
 		}
 	}
 }
 
-void Vexil::Accessory::renderShape(Canvas* canvas, int lx, int ly)
+void Vexil::Accessory::renderShape(Canvas* canvas, Palette* palette, int lx, int ly)
 {
 	switch (type)
 	{
 	case Vexil::Accessory::star:
-		renderStar(canvas, lx, ly);
+		renderStar(canvas, palette, lx, ly);
 		break;
 	case Vexil::Accessory::accCross:
-		//renderCross(canvas, lx, ly);
+		//renderCross(canvas, palette, lx, ly);
 		break;
 	case Vexil::Accessory::moon:
-		//renderMoon(canvas, lx, ly);
+		//renderMoon(canvas, palette, lx, ly);
 		break;
 	case Vexil::Accessory::circle:
-		renderCircle(canvas, lx, ly);
+		renderCircle(canvas, palette, lx, ly);
 		break;
 	case Vexil::Accessory::leaf:
-		//renderLeaf(canvas, lx, ly);
+		//renderLeaf(canvas, palette, lx, ly);
 		break;
 	case Vexil::Accessory::tree:
-		//renderTree(canvas, lx, ly);
+		//renderTree(canvas, palette, lx, ly);
 		break;
 	case Vexil::Accessory::diamond:
-		//renderDiamond(canvas, lx, ly);
+		//renderDiamond(canvas, palette, lx, ly);
 		break;
 	case Vexil::Accessory::sun:
-		//renderSun(canvas, lx, ly);
+		//renderSun(canvas, palette, lx, ly);
 		break;
 	case Vexil::Accessory::emblem:
-		//renderEmblem(canvas, lx, ly);
+		//renderEmblem(canvas, palette, lx, ly);
 		break;
 	case Vexil::Accessory::accNone:
 	default:
@@ -165,9 +167,9 @@ void Vexil::Accessory::renderShape(Canvas* canvas, int lx, int ly)
 	}
 }
 
-void Vexil::Accessory::renderCircle(Canvas* canvas, int ix, int iy)
+void Vexil::Accessory::renderCircle(Canvas* canvas, Palette* palette, int ix, int iy)
 {
-	setDrawColor(canvas, color);
+	setDrawColor(canvas, palette->getColorAt(colorSelect));
 	double radius = (TK_WINDOW_HEIGHT / (5*count))*size;
 	for (int lx = 0; lx < TK_WINDOW_WIDTH; lx++)
 	{
@@ -183,9 +185,9 @@ void Vexil::Accessory::renderCircle(Canvas* canvas, int ix, int iy)
 	}
 }
 
-void Vexil::Accessory::renderStar(Canvas* canvas, int ix, int iy)
+void Vexil::Accessory::renderStar(Canvas* canvas, Palette* palette, int ix, int iy)
 {
-	setDrawColor(canvas, color);
+	setDrawColor(canvas, palette->getColorAt(colorSelect));
 	double radius = (TK_WINDOW_HEIGHT / (5 * count))*size;
 	int px[5];
 	int py[5];
