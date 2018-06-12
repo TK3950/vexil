@@ -11,13 +11,11 @@ namespace Vexil {
 		};
 	private:
 
-		double hue;
-		double saturation;
-		double value;
+		double baseHue;
+		double baseSaturation;
+		double baseValue;
 		double deltaHue;
-		double deltaSat;
 		PaletteType type;
-		Color getRgbColor(double h, double d);
 
 		Color* base;
 		Color** complements;
@@ -26,6 +24,7 @@ namespace Vexil {
 		Palette();
 		Palette(double h, double d, PaletteType t);
 		Color* getColorAt(int index);
+		~Palette();
 	};
 }
 
