@@ -252,13 +252,13 @@ void Vexil::Pattern::renderTriangle(Canvas* canvas, Palette* palette)
 		for (int lx = 0; lx < (strength*TK_WINDOW_WIDTH); lx++)
 		{
 			SDL_RenderDrawLine(canvas->getRenderer(), (TK_WINDOW_WIDTH / 2), 
-			((TK_WINDOW_HEIGHT / 2)*strength) - lx,
+				((TK_WINDOW_HEIGHT / 2)*strength) - lx,
 				(TK_WINDOW_WIDTH / 2) + ((TK_WINDOW_HEIGHT / 2)*strength) - lx,
-				0);
+				-1);
 			SDL_RenderDrawLine(canvas->getRenderer(), (TK_WINDOW_WIDTH / 2),
 				((TK_WINDOW_HEIGHT / 2)*strength) - lx,
 				(TK_WINDOW_WIDTH / 2) - ((TK_WINDOW_HEIGHT / 2)*strength) + lx,
-				0);
+				-1);
 			
 		}
 	}
@@ -285,11 +285,11 @@ void Vexil::Pattern::renderTriangle(Canvas* canvas, Palette* palette)
 		{
 			SDL_RenderDrawLine(canvas->getRenderer(), ((TK_WINDOW_HEIGHT / 2)*strength) - lx,
 				(TK_WINDOW_HEIGHT / 2),
-				0,
+				-1,
 				(TK_WINDOW_HEIGHT / 2) + ((TK_WINDOW_HEIGHT / 2)*strength) - lx);
 			SDL_RenderDrawLine(canvas->getRenderer(), ((TK_WINDOW_HEIGHT / 2)*strength) - lx,
 				(TK_WINDOW_HEIGHT / 2),
-				0,
+				-1,
 				(TK_WINDOW_HEIGHT / 2) - ((TK_WINDOW_HEIGHT / 2)*strength) + lx);
 
 		}
