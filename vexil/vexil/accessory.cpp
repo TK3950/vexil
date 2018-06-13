@@ -11,17 +11,54 @@ Vexil::Accessory::Accessory()
 
 	color = new Color(r, g, b, a);
 	count = VexMath::getInt(12, 21, 0, 7);
-	type = (AccessoryType)VexMath::getInt(986, 23154, 0, AccessoryType::emblem+1);
-	accessoryPattern = (AccessoryPattern)VexMath::getInt(21, 5322, 0, AccessoryPattern::bow+1);
+	type = (AccessoryType)VexMath::getInt(986, 23154, 0, AccessoryType::emblem);
+	accessoryPattern = (AccessoryPattern)VexMath::getInt(21, 5322, 0, AccessoryPattern::bow);
 	size = VexMath::getDouble(352, 789, 0.25f, 0.99999f);
-	location = (AccessoryLocation)VexMath::getInt(124, 986, 0, AccessoryLocation::center+1);
-
-	x = VexMath::getDouble(753, 159, 0.0, (double)TK_WINDOW_WIDTH);
-	y = VexMath::getDouble(159, 486, 0.0, (double)TK_WINDOW_WIDTH);
-
+	location = (AccessoryLocation)VexMath::getInt(124, 986, 0, AccessoryLocation::center);
 	blockPatterns = (VexMath::getInt(451, 451, 0, 4) > 1) ? false : true;
 
 	colorSelect = VexMath::getInt(2134, 4543, 0, 3);
+
+	switch (location)
+	{
+	case center:
+		x = TK_WINDOW_WIDTH / 2;
+		y = TK_WINDOW_HEIGHT / 2;
+		break;
+	case topLeft:
+		x = TK_WINDOW_WIDTH / 4;
+		y = TK_WINDOW_HEIGHT / 4;
+		break;
+	case topRight:
+		x = 3 *(TK_WINDOW_WIDTH / 4);
+		y = TK_WINDOW_HEIGHT / 4;
+		break;
+	case bottomRight:
+		x = 3 * (TK_WINDOW_WIDTH / 4);
+		y = 3 * (TK_WINDOW_HEIGHT / 4);
+		break;
+	case bottomLeft:
+		x = TK_WINDOW_WIDTH / 4;
+		y = 3 * (TK_WINDOW_HEIGHT / 4);
+		break;
+
+	case left:
+		x = TK_WINDOW_WIDTH / 4;
+		y = TK_WINDOW_HEIGHT / 2;
+		break;
+	case right:
+		x = 3 * (TK_WINDOW_WIDTH / 4);
+		y = TK_WINDOW_HEIGHT / 2;
+		break;
+	case top:
+		x = TK_WINDOW_WIDTH / 2;
+		y = TK_WINDOW_HEIGHT / 4;
+		break;
+	case bottom:
+		x = TK_WINDOW_WIDTH / 2;
+		y = 3 * (TK_WINDOW_HEIGHT / 4);
+		break;
+	}
 }
 
 Vexil::Accessory::AccessoryType Vexil::Accessory::getType()
@@ -75,21 +112,25 @@ void Vexil::Accessory::renderSingle(Canvas* canvas, Palette* palette)
 {
 	renderShape(canvas, palette, x, y);
 }
-void Vexil::Accessory::renderGrid(Canvas* canvas, Palette* palette)
+void Vexil::Accessory::renderGrid(Canvas* canvas, Palette* palette) // render grid starting at the center and expanding outward
 {
 	int yMax = (TK_WINDOW_HEIGHT / 2)*size;
 	int xMax = (TK_WINDOW_WIDTH / 2)*size;
 	int xIncr = xMax / count;
 	int yIncr = yMax / count;
-	for (int i = 0; i < count; i++)
+	for (int i = 0; i < count/2; i++)
 	{
-		for (int j = 0; j < count; j++)
+		for (int j = 0; j < count/2; j++)
 		{
-			renderShape(canvas, palette, x+i*xIncr, y+j*yIncr);
+			renderShape(canvas, palette, x + i*xIncr, y + j*yIncr);
+			renderShape(canvas, palette, x - i*xIncr, y - j*yIncr);
+			renderShape(canvas, palette, x + i*xIncr, y - j*yIncr);
+			renderShape(canvas, palette, x - i*xIncr, y + j*yIncr);
+			// some overlap rendering occurs, but this is a small price to keep it centered
 		}
 	}
 }
-void Vexil::Accessory::renderCircular(Canvas* canvas, Palette* palette)
+void Vexil::Accessory::renderCircular(Canvas* canvas, Palette* palette) // circular around the center
 {
 	double radius = (TK_WINDOW_HEIGHT / 4)*size;
 	for (int i = 0; i < count; i++)
@@ -99,7 +140,7 @@ void Vexil::Accessory::renderCircular(Canvas* canvas, Palette* palette)
 		renderShape(canvas, palette, x+lx, y+ly);
 	}
 }
-void Vexil::Accessory::renderBow(Canvas* canvas, Palette* palette)
+void Vexil::Accessory::renderBow(Canvas* canvas, Palette* palette) // halfish circle around the center
 {
 	double radius = (TK_WINDOW_HEIGHT / 2)*size;
 	for (int i = 1; i < count-1; i++)
@@ -109,21 +150,24 @@ void Vexil::Accessory::renderBow(Canvas* canvas, Palette* palette)
 		renderShape(canvas, palette, x+lx, y+ly);
 	}
 }
-void Vexil::Accessory::renderStagGrid(Canvas* canvas, Palette* palette)
+void Vexil::Accessory::renderStagGrid(Canvas* canvas, Palette* palette) // render staggered grid starting at the center and expanding outward
 {
 	for (int i = 0; i < count; i++)
 	{
 		int yMax = (TK_WINDOW_HEIGHT / 2)*size;
 		int xMax = (TK_WINDOW_WIDTH / 2)*size;
-		int xIncr = xMax / count;
-		int yIncr = yMax / count;
-		for (int i = 0; i < count; i++)
+		int xIncr = xMax / (2*count);
+		int yIncr = yMax / (2*count);
+		for (int i = 0; i < count/2; i++)
 		{
-			for (int j = 0; j < count; j++)
+			for (int j = 0; j < count/2; j++)
 			{
 				if (j%2 == i%2)
 				{
-					renderShape(canvas, palette, x+i*xIncr, y+j*yIncr);
+					renderShape(canvas, palette, x + i*xIncr, y + j*yIncr);
+					renderShape(canvas, palette, x - i*xIncr, y - j*yIncr);
+					renderShape(canvas, palette, x + i*xIncr, y - j*yIncr);
+					renderShape(canvas, palette, x - i*xIncr, y + j*yIncr);
 				}
 			}
 		}

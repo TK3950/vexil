@@ -33,12 +33,16 @@ namespace Vexil
 			bow,
 		};
 
-		enum AccessoryLocation { // if multiple acc., what pattern do they appear in
+		enum AccessoryLocation { // where does the accessory appear
 			topLeft = 0,
 			topRight,
 			bottomLeft,
 			bottomRight,
-			center
+			left,
+			right,
+			top,
+			bottom,
+			center,
 		};
 
 	private:
