@@ -27,7 +27,7 @@ bool Vexil::Canvas::SaveImage()
 	std::stringstream oss;
 	SDL_Window* SDLWindow = window;
 	SDL_Renderer* SDLRenderer = renderer;
-	std::string filepath = "C:\\Users\\Timothy\\Pictures\\screenshot-";
+	std::string filepath = "..\\..\\screenshot-";
 	std::string extension = ".bmp";
 	oss << filepath << timer << extension;
 	oss >> filepath;
