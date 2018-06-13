@@ -235,11 +235,11 @@ void Vexil::Accessory::renderStar(Canvas* canvas, Palette* palette, int ix, int 
 			{
 				SDL_RenderDrawPoint(canvas->getRenderer(), i, j);
 			}
-			else if (VexMath::isInsideTriangle(Point(i, j), t2.getA(), t2.getB(), t2.getC()))
+			if (VexMath::isInsideTriangle(Point(i, j), t2.getA(), t2.getB(), t2.getC()))
 			{
 				SDL_RenderDrawPoint(canvas->getRenderer(), i, j);
 			}
-			else if (VexMath::isInsideTriangle(Point(i, j), t3.getA(), t3.getB(), t3.getC()))
+			if (VexMath::isInsideTriangle(Point(i, j), t3.getA(), t3.getB(), t3.getC()))
 			{
 				SDL_RenderDrawPoint(canvas->getRenderer(), i, j);
 			}
