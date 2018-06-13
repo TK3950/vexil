@@ -59,7 +59,6 @@ Vexil::Accessory::Accessory()
 		y = 3 * (TK_WINDOW_HEIGHT / 4);
 		break;
 	}
-	type = sun;
 }
 
 Vexil::Accessory::AccessoryType Vexil::Accessory::getType()
@@ -368,7 +367,13 @@ void  Vexil::Accessory::renderCross(Canvas* canvas, Palette* palette, int ix, in
 
 void Vexil::Accessory::renderSun(Canvas* canvas, Palette* palette, int ix, int iy)
 {
-	size = (size < .6) ? .6 : size;
+	if (size < 0.6f)
+	{
+		if (accessoryPattern == grid)
+			return; // too small to render, exit
+		else
+			size = .6f;
+	}
 	setDrawColor(canvas, palette->getColorAt(colorSelect));
 	double radius = (TK_WINDOW_HEIGHT / (7 * count))*size;
 	int px;
