@@ -59,7 +59,6 @@ Vexil::Accessory::Accessory()
 		y = 3 * (TK_WINDOW_HEIGHT / 4);
 		break;
 	}
-	type = moon;
 }
 
 Vexil::Accessory::AccessoryType Vexil::Accessory::getType()
@@ -183,7 +182,7 @@ void Vexil::Accessory::renderShape(Canvas* canvas, Palette* palette, int lx, int
 		renderStar(canvas, palette, lx, ly);
 		break;
 	case Vexil::Accessory::accCross:
-		//renderCross(canvas, palette, lx, ly);
+		renderCross(canvas, palette, lx, ly);
 		break;
 	case Vexil::Accessory::moon:
 		renderMoon(canvas, palette, lx, ly);
@@ -350,5 +349,18 @@ void Vexil::Accessory::renderMoon(Canvas* canvas, Palette* palette, int ix, int 
 				SDL_RenderDrawPoint(canvas->getRenderer(), lx, ly);
 			}
 		}
+	}
+}
+
+void  Vexil::Accessory::renderCross(Canvas* canvas, Palette* palette, int ix, int iy)
+{
+	double scale = (TK_WINDOW_HEIGHT / (5 * count))*size;
+	for (int i = 0; i < scale / 4; i++)
+	{
+		SDL_RenderDrawLine(canvas->getRenderer(), ix + scale, iy + i, ix - scale, iy + i);
+		SDL_RenderDrawLine(canvas->getRenderer(), ix + scale, iy - i, ix - scale, iy - i);
+
+		SDL_RenderDrawLine(canvas->getRenderer(), ix + i, iy + scale, ix + i, iy - scale);
+		SDL_RenderDrawLine(canvas->getRenderer(), ix - i, iy + scale, ix - i, iy - scale);
 	}
 }
