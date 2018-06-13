@@ -1,5 +1,4 @@
 #include "vexmath.h"
-#define BARYCENTRIC 1
 
 
 double Vexil::VexMath::getDouble(double x, double y, double min, double max)
