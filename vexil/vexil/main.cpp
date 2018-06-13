@@ -18,6 +18,8 @@ int main()
 	int response = 0;
 	printf("\n= Ready = \n");
 	printf("\nPress G on the main window to generate a flag with OpenSimplexNoise\n");
+	printf("\nPress V on the main window to view the palette of the generated flag\n");
+	printf("\nPress T on the main window to test the palette selection\n");
 	SDL_RestoreWindow(canvas->getWindow());
 	SDL_RenderClear(canvas->getRenderer());
 

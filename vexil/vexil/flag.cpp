@@ -42,8 +42,6 @@ void Vexil::Flag::generate()
 	patternCount = VexMath::getInt(400, 400, 0,4 );
 	accessoryCount = VexMath::getInt(400, 400, 0, 2);
 
-	std::cout << "Press G on main window to generate.\n";
-
 	createPatterns(patternCount);
 	createAccessories(accessoryCount);
 
