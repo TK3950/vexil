@@ -80,8 +80,8 @@ void Vexil::Pattern::renderHStripes(Canvas* canvas, Palette* palette)
 {
 	for (int ly = 0; ly < TK_WINDOW_HEIGHT; ly++)
 	{
-
 		if (firstPosition == topLeft || firstPosition == topRight || firstPosition == top || firstPosition == left)
+		
 		{
 			if (ly < (TK_WINDOW_HEIGHT *strength))
 			{
@@ -94,15 +94,15 @@ void Vexil::Pattern::renderHStripes(Canvas* canvas, Palette* palette)
 			}
 		}
 
-		if (firstPosition == bottomLeft || firstPosition == bottomRight || firstPosition == bottom || firstPosition == right)
+		else if (firstPosition == bottomLeft || firstPosition == bottomRight || firstPosition == bottom || firstPosition == right)
 		{
-			if (ly > (TK_WINDOW_HEIGHT *strength))
+			if (ly < (TK_WINDOW_HEIGHT *strength))
 			{
 				setDrawColor(canvas, palette->getColorAt(colorSelect));
-				SDL_RenderDrawLine(canvas->getRenderer(), 0, ly, TK_WINDOW_WIDTH, ly);
+				SDL_RenderDrawLine(canvas->getRenderer(), 0, TK_WINDOW_HEIGHT - ly, TK_WINDOW_WIDTH, TK_WINDOW_HEIGHT - ly);
 				if (symmetry == Pattern::horizontal)
 				{
-					SDL_RenderDrawLine(canvas->getRenderer(), 0, TK_WINDOW_HEIGHT - ly, TK_WINDOW_WIDTH, TK_WINDOW_HEIGHT - ly);
+					SDL_RenderDrawLine(canvas->getRenderer(), 0, ly, TK_WINDOW_WIDTH, ly);
 				}
 			}
 		}
