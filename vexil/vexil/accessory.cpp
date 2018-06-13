@@ -197,7 +197,7 @@ void Vexil::Accessory::renderShape(Canvas* canvas, Palette* palette, int lx, int
 		//renderTree(canvas, palette, lx, ly);
 		break;
 	case Vexil::Accessory::diamond:
-		//renderDiamond(canvas, palette, lx, ly);
+		renderDiamond(canvas, palette, lx, ly);
 		break;
 	case Vexil::Accessory::sun:
 		//renderSun(canvas, palette, lx, ly);
@@ -290,4 +290,42 @@ void Vexil::Accessory::renderStar(Canvas* canvas, Palette* palette, int ix, int 
 		}
 	}
 	
+}
+
+void  Vexil::Accessory::renderDiamond(Canvas* canvas, Palette* palette, int ix, int iy)
+{
+	// diamond consists of four points
+	// ix +- scale
+	// iy +- scale
+	double scale = (TK_WINDOW_HEIGHT / (5 * count))*size;
+	double narrowness = .6;
+	setDrawColor(canvas, palette->getColorAt(colorSelect));
+
+	Triangle t1 = Triangle(
+		Point(ix + narrowness*scale, iy),
+		Point(ix - narrowness*scale, iy),
+		Point(ix, iy + scale)
+	);
+
+	Triangle t2 = Triangle(
+		Point(ix + narrowness*scale, iy),
+		Point(ix - narrowness*scale, iy),
+		Point(ix, iy - scale)
+	);
+
+	for (int i = ix - scale; i < ix + scale; i++)
+	{
+		for (int j = iy - scale; j < iy + scale; j++)
+		{
+			if (VexMath::isInsideTriangle(Point(i, j), t1.getA(), t1.getB(), t1.getC()))
+			{
+				SDL_RenderDrawPoint(canvas->getRenderer(), i, j);
+			}
+			if (VexMath::isInsideTriangle(Point(i, j), t2.getA(), t2.getB(), t2.getC()))
+			{
+				SDL_RenderDrawPoint(canvas->getRenderer(), i, j);
+			}
+		}
+	}
+	SDL_RenderDrawLine(canvas->getRenderer(), ix + narrowness*scale, iy, ix - narrowness*scale+1, iy);
 }
