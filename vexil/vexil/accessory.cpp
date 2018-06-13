@@ -59,6 +59,7 @@ Vexil::Accessory::Accessory()
 		y = 3 * (TK_WINDOW_HEIGHT / 4);
 		break;
 	}
+	type = moon;
 }
 
 Vexil::Accessory::AccessoryType Vexil::Accessory::getType()
@@ -185,7 +186,7 @@ void Vexil::Accessory::renderShape(Canvas* canvas, Palette* palette, int lx, int
 		//renderCross(canvas, palette, lx, ly);
 		break;
 	case Vexil::Accessory::moon:
-		//renderMoon(canvas, palette, lx, ly);
+		renderMoon(canvas, palette, lx, ly);
 		break;
 	case Vexil::Accessory::circle:
 		renderCircle(canvas, palette, lx, ly);
@@ -328,4 +329,26 @@ void  Vexil::Accessory::renderDiamond(Canvas* canvas, Palette* palette, int ix, 
 		}
 	}
 	SDL_RenderDrawLine(canvas->getRenderer(), ix + narrowness*scale, iy, ix - narrowness*scale+1, iy);
+}
+
+void Vexil::Accessory::renderMoon(Canvas* canvas, Palette* palette, int ix, int iy)
+{
+	setDrawColor(canvas, palette->getColorAt(colorSelect));
+	double radius = (TK_WINDOW_HEIGHT / (5 * count))*size;
+	double phase = 4*size;
+	for (int lx = 0; lx < TK_WINDOW_WIDTH; lx++)
+	{
+		for (int ly = 0; ly < TK_WINDOW_HEIGHT; ly++)
+		{
+			double dx = ix - lx;
+			double dy = iy - ly;
+			double sx = dx - phase * 2;
+			double sy = dy - phase;
+			if (sqrt(dx*dx + dy*dy) < radius && sqrt(sx*sx + sy*sy) > radius)
+			{
+
+				SDL_RenderDrawPoint(canvas->getRenderer(), lx, ly);
+			}
+		}
+	}
 }
