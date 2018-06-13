@@ -10,10 +10,12 @@ namespace Vexil
 		Point b;
 		Point c;
 	public:
+		Triangle();
 		Triangle(Point, Point, Point);
 		Point getA();
 		Point getB();
 		Point getC();
+		void set(Point a, Point b, Point c);
 	};
 }
 

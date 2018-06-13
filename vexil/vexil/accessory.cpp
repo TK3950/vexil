@@ -59,6 +59,7 @@ Vexil::Accessory::Accessory()
 		y = 3 * (TK_WINDOW_HEIGHT / 4);
 		break;
 	}
+	type = sun;
 }
 
 Vexil::Accessory::AccessoryType Vexil::Accessory::getType()
@@ -200,7 +201,7 @@ void Vexil::Accessory::renderShape(Canvas* canvas, Palette* palette, int lx, int
 		renderDiamond(canvas, palette, lx, ly);
 		break;
 	case Vexil::Accessory::sun:
-		//renderSun(canvas, palette, lx, ly);
+		renderSun(canvas, palette, lx, ly);
 		break;
 	case Vexil::Accessory::emblem:
 		//renderEmblem(canvas, palette, lx, ly);
@@ -241,7 +242,7 @@ void Vexil::Accessory::renderStar(Canvas* canvas, Palette* palette, int ix, int 
 	for (int i = 0; i < 5; i++)
 	{
 		double angle = DEG360 / 5.0f;
-		px[i] = radius * cos(angle*+i - DEG90);
+		px[i] = radius * cos(angle*i - DEG90);
 		py[i] = radius * sin(angle*i - DEG90);
 	}
 	// interior points
@@ -363,4 +364,55 @@ void  Vexil::Accessory::renderCross(Canvas* canvas, Palette* palette, int ix, in
 		SDL_RenderDrawLine(canvas->getRenderer(), ix + i, iy + scale, ix + i, iy - scale);
 		SDL_RenderDrawLine(canvas->getRenderer(), ix - i, iy + scale, ix - i, iy - scale);
 	}
+}
+
+void Vexil::Accessory::renderSun(Canvas* canvas, Palette* palette, int ix, int iy)
+{
+	size = (size < .6) ? .6 : size;
+	setDrawColor(canvas, palette->getColorAt(colorSelect));
+	double radius = (TK_WINDOW_HEIGHT / (7 * count))*size;
+	int px;
+	int py;
+	int sx[2];
+	int sy[2];
+	Triangle tri[12];
+	for (int lx = 0; lx < TK_WINDOW_WIDTH; lx++)
+	{
+		for (int ly = 0; ly < TK_WINDOW_HEIGHT; ly++)
+		{
+			double dx = ix - lx;
+			double dy = iy - ly;
+			if (sqrt(dx*dx + dy*dy) < radius)
+			{
+				SDL_RenderDrawPoint(canvas->getRenderer(), lx, ly);
+			}
+		}
+	}
+	for (int i = 0; i < 12; i++)
+	{
+		double angle = DEG360 / 12;
+		double phase = DEG360 / 12;
+		px = 1.5*radius * (double)cos(angle*i);
+		py = 1.5*radius * (double)sin(angle*i);
+		sx[0] = .6*radius * (double)cos(angle*i + phase);
+		sy[0] = .6*radius * (double)sin(angle*i + phase);
+		sx[1] = .6*radius * (double)cos(angle*i - phase);
+		sy[1] = .6*radius * (double)sin(angle*i - phase);
+	
+		tri[i].set(Point(ix + px, iy + py),
+			Point(ix + sx[0], iy + sy[0]),
+			Point(ix + sx[1], iy + sy[1]));
+
+		for (int j = ix - 1.5*radius; j < ix + 1.5*radius; j++)
+		{
+			for (int k = iy - 1.5*radius; k < iy + 1.5*radius; k++)
+			{
+				if (VexMath::isInsideTriangle(Point(j, k), tri[i].getA(), tri[i].getB(), tri[i].getC()))
+				{
+					SDL_RenderDrawPoint(canvas->getRenderer(), j, k);
+				}
+			}
+		}
+	}
+	
 }
