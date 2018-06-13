@@ -47,3 +47,7 @@ void Vexil::Vec2d::setY(double yy)
 {
 	y = yy;
 }
+double Vexil::Vec2d::getMagnitude()
+{
+	return sqrt(x*x + y*y);
+}

@@ -19,6 +19,7 @@ namespace Vexil {
 		void setOriginY(double);
 		double getX();
 		double getY();
+		double getMagnitude();
 		void setX(double);
 		void setY(double);
 	};

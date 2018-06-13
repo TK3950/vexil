@@ -20,6 +20,8 @@ namespace Vexil
 		static double getRawNoise(int x,int y);
 		static bool getBool(int x, int y);
 		static double crossProduct(Vec2d v1, Vec2d v2);
+		static double dotProduct(Vec2d v1, Vec2d v2);
+		static double angle(Vec2d v1, Vec2d v2);
 		static bool sameSideOfLine(Point tp, Point ref, Point a, Point b);
 		static bool isInsideTriangle(Point tp, Point a, Point b, Point c);
 	};
