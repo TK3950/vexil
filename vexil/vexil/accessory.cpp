@@ -12,7 +12,7 @@ Vexil::Accessory::Accessory()
 	color = new Color(r, g, b, a);
 	count = VexMath::getInt(12, 21, 0, 7);
 	type = (AccessoryType)VexMath::getInt(986, 23154, 0, AccessoryType::emblem);
-	accessoryPattern = (AccessoryPattern)VexMath::getInt(21, 5322, 0, AccessoryPattern::bow);
+	accessoryPattern = (AccessoryPattern)VexMath::getInt(1, 1, 0, AccessoryPattern::bow);
 	size = VexMath::getDouble(352, 789, 0.25f, 0.99999f);
 	location = (AccessoryLocation)VexMath::getInt(124, 986, 0, AccessoryLocation::center);
 	blockPatterns = (VexMath::getInt(451, 451, 0, 4) > 1) ? false : true;

@@ -105,7 +105,7 @@ int Vexil::VexMath::getInt(double x, double y, int min, int max)
 		int64_t seed = clk + timer + timer / 3 + clk / 3 + clk / 6 + clk*clk;
 		OpenSimplexNoise noise(seed); // NOTE: I hate generating new noise for every call
 									  // but we can't seem to make the noise static
-		int val = (int)round(min + max*abs(noise.Evaluate(x, y) + 0.5f));
+		int val = (int)round(min + max*abs(noise.Evaluate(x, y) + 0.49999f));
 		if (val > max)
 			return max;
 		else if (val < min)
