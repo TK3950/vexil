@@ -34,7 +34,6 @@ Vexil::Palette::Palette()
 		complements[2] = new Color(baseHue + 180.0 + deltaHue,
 			VexMath::getDouble(1945, 536, 0.0f, maxSV),
 			VexMath::getDouble(7372, 23467, 0.0f, maxSV));
-
 		
 	}
 	if (type == PaletteType::Tri)
@@ -53,6 +52,13 @@ Vexil::Palette::Palette()
 			VexMath::getDouble(27372, 223467, 0.0f, maxSV));
 	}
 
+	accents = new Color*[3];
+	for (int i = 0; i < 3; i++)
+	{
+		accents[i] = new Color(complements[i]->getHue(),
+							complements[i]->getSaturation()*1.25,
+							complements[i]->getValue()*1.25);
+	}
 }
 
 Vexil::Palette::Palette(double h, double d, PaletteType t)
@@ -67,10 +73,10 @@ Color* Vexil::Palette::getColorAt(int index)
 {
 	if (this != NULL)
 	{
-		if (index > 3 || index < 0)
-			return colorNull;
-		else if (index == 3)
-			return base;
+		if (index >= 6)
+			return accents[2];
+		else if (index >= 3)
+			return accents[index - 3];
 		else
 			return complements[index];
 	}

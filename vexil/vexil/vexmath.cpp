@@ -44,7 +44,7 @@ bool Vexil::VexMath::sameSideOfLine(Point testPoint, Point reference, Point a, P
 	Vec2d referenceVector = Vec2d(reference,a);
 	double cp1 = crossProduct(ba, testVector);
 	double cp2 = crossProduct(ba, referenceVector);
-	if (cp1*cp2 > 0)
+	if (cp1*cp2 >= 0)
 	{
 		return true;
 	}

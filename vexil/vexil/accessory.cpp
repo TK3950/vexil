@@ -17,7 +17,7 @@ Vexil::Accessory::Accessory()
 	location = (AccessoryLocation)VexMath::getInt(124, 986, 0, AccessoryLocation::center);
 	blockPatterns = (VexMath::getInt(451, 451, 0, 4) > 1) ? false : true;
 
-	colorSelect = VexMath::getInt(2134, 4543, 0, 3);
+	colorSelect = VexMath::getInt(2134, 4543, 4, 6);
 
 	switch (location)
 	{
@@ -59,6 +59,10 @@ Vexil::Accessory::Accessory()
 		y = 3 * (TK_WINDOW_HEIGHT / 4);
 		break;
 	}
+	type = leaf;
+	accessoryPattern = single;
+	size = 0.99f;
+	count = 1;
 }
 
 Vexil::Accessory::AccessoryType Vexil::Accessory::getType()
@@ -191,7 +195,7 @@ void Vexil::Accessory::renderShape(Canvas* canvas, Palette* palette, int lx, int
 		renderCircle(canvas, palette, lx, ly);
 		break;
 	case Vexil::Accessory::leaf:
-		//renderLeaf(canvas, palette, lx, ly);
+		renderLeaf(canvas, palette, lx, ly);
 		break;
 	case Vexil::Accessory::tree:
 		//renderTree(canvas, palette, lx, ly);
@@ -369,7 +373,7 @@ void Vexil::Accessory::renderSun(Canvas* canvas, Palette* palette, int ix, int i
 {
 	if (size < 0.6f)
 	{
-		if (accessoryPattern == grid)
+		if (accessoryPattern == grid || accessoryPattern == staggeredGrid)
 			return; // too small to render, exit
 		else
 			size = .6f;
@@ -420,4 +424,79 @@ void Vexil::Accessory::renderSun(Canvas* canvas, Palette* palette, int ix, int i
 		}
 	}
 	
+}
+
+void Vexil::Accessory::renderLeaf(Canvas* canvas, Palette* palette, int ix, int iy) // sloppy, I'll fix it up later.
+{
+	// somehow fails on when location == left
+	size = 0.99f;
+	double radius = 3 + size;
+	setDrawColor(canvas, palette->getColorAt(colorSelect)); // accessory color
+
+	Point right[8];
+	Point left[8];
+	Triangle leftTris[7];
+	Triangle rightTris[7];
+
+	Point p0   = Point(ix, iy);
+	Point p5   = Point(ix, iy - radius*(5));
+	right[0] = Point(ix,                      iy - radius*(19));
+	right[1] = Point(ix + radius * 6,         iy - radius*(14));
+	right[2] = Point(ix + radius * 8,         iy - radius*(9));
+	right[3] = Point(ix + radius * 15,        iy - radius*(6));
+	right[4] = Point(ix + radius * 13,        iy - radius*(2));
+	right[5] = Point(ix + radius * 7,         iy + radius*(1));
+	right[6] = Point(ix + radius * 3,         iy - radius*(0));
+	right[7] = Point(ix,                      iy - radius*(1));
+
+	
+	rightTris[0].set(right[0], right[1], p0);
+	rightTris[1].set(right[1], right[2], p0);
+	rightTris[2].set(right[2], right[3], p0);
+
+	rightTris[3].set(right[3], right[4], p5);
+	rightTris[4].set(right[4], right[5], p5);
+	rightTris[5].set(right[5], right[6], p5);
+	rightTris[6].set(right[6], right[7], p5);
+
+
+	left[0] = Point(ix,                      iy - radius*(19));
+	left[1] = Point(ix - radius * 6,		 iy - radius*(14));
+	left[2] = Point(ix - radius * 8,         iy - radius*(9));
+	left[3] = Point(ix - radius * 15,        iy - radius*(6));
+	left[4] = Point(ix - radius * 13,        iy - radius*(2));
+	left[5] = Point(ix - radius * 7,         iy + radius*(1));
+	left[6] = Point(ix - radius * 3,         iy - radius*(0));
+	left[7] = Point(ix,                      iy - radius*(1));
+
+	leftTris[0].set(left[0], left[1], p0);
+	leftTris[1].set(left[1], left[2], p0);
+	leftTris[2].set(left[2], left[3], p0);
+
+	leftTris[3].set(left[3], left[4], p5);
+	leftTris[4].set(left[4], left[5], p5);
+	leftTris[5].set(left[5], left[6], p5);
+	leftTris[6].set(left[6], left[7], p5);
+
+	
+	for (int j = ix - radius * 19; j < ix + radius * 19; j++)
+	{
+		for (int k = iy - radius * 19; k < iy + radius * 19; k++)
+		{
+			for (int i = 0; i < 8; i++)
+			{
+				if (VexMath::isInsideTriangle(Point(j, k), leftTris[i].getA(), leftTris[i].getB(), leftTris[i].getC()))
+				{
+					SDL_RenderDrawPoint(canvas->getRenderer(), j, k);
+					SDL_RenderCopy(canvas->getRenderer(), canvas->getTexture(), NULL, NULL);
+					SDL_RenderPresent(canvas->getRenderer());
+				}
+				if (VexMath::isInsideTriangle(Point(j, k), rightTris[i].getA(), rightTris[i].getB(), rightTris[i].getC()))
+				{
+					SDL_RenderDrawPoint(canvas->getRenderer(), j, k);
+				}
+			}
+		}
+	}
+	SDL_RenderDrawLine(canvas->getRenderer(), ix, iy - radius * 19, ix, iy + radius * 5);
 }

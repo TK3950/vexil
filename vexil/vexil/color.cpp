@@ -164,3 +164,16 @@ void Color::makeRBG()
 	}
 	return;
 }
+
+double Color::getHue()
+{
+	return h;
+}
+double Color::getSaturation()
+{
+	return s;
+}
+double Color::getValue()
+{
+	return v;
+}

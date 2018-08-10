@@ -115,6 +115,11 @@ SDL_Renderer* Vexil::Canvas::getRenderer()
 	return renderer;
 }
 
+SDL_Texture* Vexil::Canvas::getTexture()
+{
+	return texture;
+}
+
 SDL_Window* Vexil::Canvas::getWindow()
 {
 	return window;

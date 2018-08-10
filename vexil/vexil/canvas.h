@@ -20,6 +20,7 @@ namespace Vexil {
 		Canvas(SDL_Renderer* r, SDL_Surface* s, SDL_Window* w, SDL_Event* e);
 		SDL_Renderer* getRenderer();
 		SDL_Window* getWindow();
+		SDL_Texture* getTexture();
 		void UpdateToScreen();
 		int GetAllEvents();
 		bool SaveImage();

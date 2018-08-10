@@ -19,6 +19,7 @@ namespace Vexil {
 
 		Color* base;
 		Color** complements;
+		Color** accents;
 		Color* colorNull;
 	public:
 		Palette();
