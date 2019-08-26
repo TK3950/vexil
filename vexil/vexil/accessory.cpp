@@ -59,10 +59,6 @@ Vexil::Accessory::Accessory()
 		y = 3 * (TK_WINDOW_HEIGHT / 4);
 		break;
 	}
-	type = leaf;
-	accessoryPattern = single;
-	size = 0.99f;
-	count = 1;
 }
 
 Vexil::Accessory::AccessoryType Vexil::Accessory::getType()
@@ -428,7 +424,6 @@ void Vexil::Accessory::renderSun(Canvas* canvas, Palette* palette, int ix, int i
 
 void Vexil::Accessory::renderLeaf(Canvas* canvas, Palette* palette, int ix, int iy) // sloppy, I'll fix it up later.
 {
-	// somehow fails on when location == left
 	size = 0.99f;
 	double radius = 3 + size;
 	setDrawColor(canvas, palette->getColorAt(colorSelect)); // accessory color
@@ -483,13 +478,11 @@ void Vexil::Accessory::renderLeaf(Canvas* canvas, Palette* palette, int ix, int 
 	{
 		for (int k = iy - radius * 19; k < iy + radius * 19; k++)
 		{
-			for (int i = 0; i < 8; i++)
+			for (int i = 0; i < 7; i++)
 			{
 				if (VexMath::isInsideTriangle(Point(j, k), leftTris[i].getA(), leftTris[i].getB(), leftTris[i].getC()))
 				{
 					SDL_RenderDrawPoint(canvas->getRenderer(), j, k);
-					SDL_RenderCopy(canvas->getRenderer(), canvas->getTexture(), NULL, NULL);
-					SDL_RenderPresent(canvas->getRenderer());
 				}
 				if (VexMath::isInsideTriangle(Point(j, k), rightTris[i].getA(), rightTris[i].getB(), rightTris[i].getC()))
 				{
