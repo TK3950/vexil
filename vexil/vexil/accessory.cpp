@@ -59,6 +59,23 @@ Vexil::Accessory::Accessory()
 		y = 3 * (TK_WINDOW_HEIGHT / 4);
 		break;
 	}
+	// apply specific type corrections here
+	if (type == AccessoryType::leaf)
+	{
+		for (; size < .9f; size += 0.05f)
+		{
+		}
+		if (accessoryPattern == AccessoryPattern::grid)
+		{
+			accessoryPattern = AccessoryPattern::staggeredGrid;
+			size = (double)((10 - count) / 10);
+		}
+	}
+	if (type == AccessoryType::tree)
+	{
+		accessoryPattern = AccessoryPattern::single;
+	}
+
 }
 
 Vexil::Accessory::AccessoryType Vexil::Accessory::getType()
@@ -194,7 +211,7 @@ void Vexil::Accessory::renderShape(Canvas* canvas, Palette* palette, int lx, int
 		renderLeaf(canvas, palette, lx, ly);
 		break;
 	case Vexil::Accessory::tree:
-		//renderTree(canvas, palette, lx, ly);
+		renderTree(canvas, palette, lx, ly);
 		break;
 	case Vexil::Accessory::diamond:
 		renderDiamond(canvas, palette, lx, ly);
@@ -424,8 +441,7 @@ void Vexil::Accessory::renderSun(Canvas* canvas, Palette* palette, int ix, int i
 
 void Vexil::Accessory::renderLeaf(Canvas* canvas, Palette* palette, int ix, int iy) // sloppy, I'll fix it up later.
 {
-	size = 0.99f;
-	double radius = 3 + size;
+	double radius = 4 * size;
 	setDrawColor(canvas, palette->getColorAt(colorSelect)); // accessory color
 
 	Point right[8];
@@ -492,4 +508,35 @@ void Vexil::Accessory::renderLeaf(Canvas* canvas, Palette* palette, int ix, int 
 		}
 	}
 	SDL_RenderDrawLine(canvas->getRenderer(), ix, iy - radius * 19, ix, iy + radius * 5);
+}
+
+void  Vexil::Accessory::renderTree(Canvas* canvas, Palette* palette, int ix, int iy)
+{
+	double scale = ((TK_WINDOW_HEIGHT / 8)*size);
+	double narrowness = .6;
+	SDL_SetRenderDrawColor(canvas->getRenderer(), 120, 70, 0, 255); // brown
+	for (int i = 0; i < 2; i++)
+	{
+		SDL_RenderDrawLine(canvas->getRenderer(), ix + i, iy + scale, ix + i, iy - scale);
+		SDL_RenderDrawLine(canvas->getRenderer(), ix - i, iy + scale, ix - i, iy - scale);
+
+		SDL_RenderDrawLine(canvas->getRenderer(), ix + i, iy + scale, ix + i, iy - scale);
+		SDL_RenderDrawLine(canvas->getRenderer(), ix - i, iy + scale, ix - i, iy - scale);
+	}
+	SDL_SetRenderDrawColor(canvas->getRenderer(), 20, 80, 0, 255); // green
+	Triangle t1 = Triangle(
+		Point(ix + narrowness*scale, iy+scale/2),
+		Point(ix - narrowness*scale, iy+scale/2),
+		Point(ix, iy - scale*1.5)
+	);
+	for (int i = ix - scale; i < ix + scale; i++)
+	{
+		for (int j = iy - scale*1.6; j < iy + scale; j++)
+		{
+			if (VexMath::isInsideTriangle(Point(i, j), t1.getA(), t1.getB(), t1.getC()))
+			{
+				SDL_RenderDrawPoint(canvas->getRenderer(), i, j);
+			}
+		}
+	}
 }
